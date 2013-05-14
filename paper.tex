@@ -1,0 +1,76 @@
+\documentclass{article}
+\begin{document}
+
+\title {Why robot programming is hard}
+\author {Tessa Lau \\
+Willow Garage \\
+Menlo Park, CA USA \\
+{\tt tlau@willowgarage.com}
+}
+\maketitle
+
+Why robotics is becoming important
+Statistics on size of market
+Number of research investments?
+Roomba, Neato in consumer use
+	http://www.neatorobotics.com/
+	http://store.irobot.com/home/index.jsp
+Baxter human-safe 2-armed manipulator
+	runs ROS
+	http://www.ros.org/news/2012/09/rethink-ros.html
+	http://www.rethinkrobotics.com/index.php/products/baxter/
+Industrial robots:
+	KUKA robot arm http://en.wikipedia.org/wiki/KUKA
+Toyota's human support robot:
+	runs ROS
+	http://www.gizmag.com/toyota-human-support-robot/24246/
+Telepresence robots:
+	Beam
+	Anybot QB
+	Double
+
+Main points:
+	EUP is what will enable robotics to spawn new industries
+	by enabling businesses to customize robot behavior for their own needs
+
+	Yet programming robots is difficult
+	State of the art today is demonstrational, which works well for limited, repetitive tasks
+	Or using highly technical tools to specify fine-grained robot behavior
+	Behavior specification requires much deep technical knowledge
+	Not only the traditionally hard topics in EUP such as conditionals, loops, variables
+	But also advanced topics like concurrency, uncertainty, high-dimensionality
+
+\section{ROS}
+
+History of ROS
+Invented by Willow Garage, new operating system for diverse robots
+Current reach
+running on robots from PR2 to android-powered XXX
+Provides very rich control substrate for programming the behavior of complex robots
+
+\section{Concurrency}
+
+ROS nodes
+multiple parts of robots (head, arms, base)
+callbacks, coroutines, threads
+
+\section{Uncertainty}
+
+World changes out from under you
+Hardware fails
+Incomplete world models
+Bayesian methods, probabilities
+
+\section{High-dimensionality}
+
+Robot arms have 7DOF
+grasps require 6D
+world is 3D
+quaternions, matrix manipulation
+specialized I/O devices
+
+\bibliographystyle{plain}
+\bibliography{general}
+
+\end{document}
+
