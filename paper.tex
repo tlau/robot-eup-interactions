@@ -9,13 +9,33 @@ Menlo Park, CA USA \\
 }
 \maketitle
 
-I never thought I would be a roboticist. In grad school, our robotics team spent months teaching little robot dogs to play soccer and solving other seemingly simple problems. I was better off in the world of software, I thought, where the systems I built could make a real difference in people's lives. Software robots would automate repetitive tasks in computer use and free people from mundane work. End user programming would enable millions of ordinary computer users to customize and adapt systems to their own needs.
+I never thought I would be a roboticist. In grad school, our robotics team spent months teaching little robot dogs to play soccer and solving other seemingly simple problems. Far better to work in the world of software, I figured, where the systems I built could make a real difference in people's lives. Software robots would automate repetitive tasks in computer use and free people from mundane work. End user programming would enable millions of ordinary computer users to customize and adapt systems to their own needs.
 
-But that world is changing. People aren't primarily sitting in front of their computers, pushing bits around. Nowadays, innovation is happening in the real world, where computing is being used to effect physical change in the world around us. The past decades have seen industrial robots increase manufacturing efficiency on the factory floor. Even more, we are now seeing robots popping up in the consumer space. Robotic vacuum cleaners are changing the way we clean our homes. Robotic lawnmowers keep the yard tidy without having to lift a finger. Nest's robotic thermostat learns your habits and keeps your home at the optimal temperature.
+But that world is changing. Computing has moved off the desktop and into the smartphones, smart environments, and the world aronud us. Innovation is happening in the real world, using computing to effect physical change in our environment. The past decades have seen industrial robots increase manufacturing efficiency on the factory floor. Even more, we are now seeing robots tackle tasks from our daily lives. Robotic vacuum cleaners are changing the way we clean our homes. Robotic lawnmowers keep the yard tidy without having to lift a finger. Nest's robotic thermostat learns your habits and keeps your home at the optimal temperature. Google's driverless car could change the way we commute.
 
-All these innovations have become possible through multiple advances: in sensor technology, which robots use to perceive the world around them; in planning and navigation, which enable robots to move around in the world unaided; in human-safe motion controllers, which let robots move their limbs without endangering humans around them; in the ROS open source robot operating system, which enables roboticists to build on each others' work without starting from scratch; and many more advances in the broader field of robotics.
+All these innovations have become possible through multiple advances: in sensor technology, which robots use to perceive the world around them; in planning and navigation, which enable robots to move around in the world unaided; in human-safe motion controllers, which let robots move their limbs without endangering the people around them; in the ROS open source robot operating system, which enables roboticists to build on each others' work without starting from scratch; and many more advances in the broader field of robotics.
 
-Yet despite all of these advances, the holy grail of personal robotics remains elusive. When will we have our own Rosie the Robot (from the Jetsons cartoon) to take over housekeeping chores? Since starting work at Willow Garage and becoming immersed in the challenges of the robotics industry, I now believe that the limiting factor is end user programming.
+Yet the holy grail of personal robotics remains elusive. When will we have our own Rosie the Robot (from the Jetsons cartoon) to take over housekeeping chores? When will disabled adults have robot helpers to assist them in activities of daily living? All of these advances in robotics still fall short of the goal of creating personal robots that can do whatever we want them to do.
+
+Actually, the problem is not that robots {\em can't} do what we want them to do. The problem is that it's too difficult to {\em tell} robots what we want them to do. The first company to crack the nut of end user robot programming will corner the market on household robots. Human-robot interaction is the missing link for widespread personal robotics.
+
+Let's look at the state of the art in robot programming technology.
+
+\section{ROS}
+
+% History of ROS
+% Invented by Willow Garage, new operating system for diverse robots
+% Current reach
+% Running on robots from PR2 to android-powered XXX
+% Provides very rich control substrate for programming the behavior of complex robots
+
+The Robot Operating System is one of the software advances that supports the rapid development of new robotics technology.  First developed in 2007 at the Stanford Articifial Intelligence Laboratory, ROS was maintained by Willow Garage from 2008-2013 and has recently transitioned into the stewardship of the non-profit Open Source Robotics Foundation.
+
+ROS provides a distributed publish/subscribe messaging platform for a collection of {\em nodes} to communicate with each other.
+
+Before ROS, roboticists had to create the software to control their robots from scratch, each doing the same work to create device drivers and rebuild libraries for their specific robot's hardware.
+
+
 
 
 
@@ -53,6 +73,7 @@ Main points:
 The challenge for robotics is to bring robots to market that are consumer-friendly and can operate in human environments. For limited tasks, we are seeing robots that can perform one single task very well without getting in the way of the humans in the household. Vacuum cleaner robots like the iRobot's Roomba and the Neato XV are flooding the market. The Robomow robotic lawn mower performs a similar task for your lawn. Undoubtedly their success is due to their extremely simple interface: the Roomba has a single large button labeled ``Clean''.
 
 
+read this: http://workshop.iroboticist.com/why-robotics/
 
 \section{Related work}
 
@@ -72,14 +93,6 @@ Telepresence robots:
 	Beam
 	Anybot QB
 	Double
-
-\section{ROS}
-
-History of ROS
-Invented by Willow Garage, new operating system for diverse robots
-Current reach
-running on robots from PR2 to android-powered XXX
-Provides very rich control substrate for programming the behavior of complex robots
 
 \section{Concurrency}
 
@@ -101,6 +114,10 @@ grasps require 6D
 world is 3D
 quaternions, matrix manipulation
 specialized I/O devices
+
+\section{Speech interfaces}
+
+Impedance mismatch of speech interfaces
 
 \bibliographystyle{plain}
 \bibliography{general}
