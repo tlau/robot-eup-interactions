@@ -19,9 +19,52 @@ Yet the holy grail of personal robotics remains elusive. When will we have our o
 
 Actually, the problem is not that robots {\em can't} do what we want them to do. The problem is that it's too difficult to {\em tell} robots what we want them to do. The first company to crack the nut of end user robot programming will corner the market on household robots. Human-robot interaction is the missing link for widespread personal robotics.
 
-Let's look at the state of the art in robot programming technology.
+\section{Case study: Robots for Humanity}
+
+One potential use case for personal robotics will be in-home care and assistance for disabled adults. The Robots for Humanity project, a collaboration between Willow Garage and Georgia Tech, aims to develop technology that enables persons with motor impairments to perform personal care tasks that they otherwise might not have been able to perform without assistance, such as picking up a dropped object, fetching a towel, or even scratching an itch. Its first prototypes have enabled Henry Evans, a mute quadriplegic, to act in the world for the first time since a brainstem stroke left him paralyzed. Limited to the ability to move a single finger, Henry has been able to instruct Willow Garage's PR2 robots to open cabinets, fetch food from the refrigerator, and even dole out candy to trick-or-treating kids on his behalf.
+
+Yet our experience with Robots for Humanity underscores how difficult it is for ordinary mortals to instruct robots what to do. Even using state-of-the-art robot visualization software developed at Willow Garage, simple tasks such as opening a cabinet door could take Henry upwards of 15 minutes to accomplish.  While Henry has only limited interaction capabilities due to motor impairment, he also has incredible motivation. Ordinary consumers, on the other hand, while fully able-bodied, may not share the same perseverance in programming robots.
+
+Until users are able to instruct robots quickly and with low effort, personal robotics will be limited to niche markets.  Why is end user robot programming so challenging? Several compounding factors make it more difficult than normal computer use.
+
+\section{High dimensionality}
+
+% Robot arms have 7DOF
+% grasps require 6D
+% world is 3D
+% quaternions, matrix manipulation
+% specialized I/O devices
+
+Unlike traditional computer interfaces which are restricted to two dimensions, robot control requires manipulating objects in a three-dimensional world. Visualizing a 3D world on existing 2D displays requires the extra dimension to be projected down into two dimensions, giving rise to the popular ``first person shooter'' style of interface. These interfaces display the world as perceived from a virtual camera, where objects can be occluded by other objects. Additional camera controls are needed to pan/zoom around the space to overcome occlusion, and these controls can be nonintuitive to non-expert computer users.
+
+High dimensionality is even more important in specifying how to grasp and place objects in the world. A solid object has six degrees of freedom: three degrees to specify its position, and another three to specify its rotation. The human arm, and the most advanced robotic arms, have seven degrees of freedom.  Many robot arm control interfaces ask users to independently specify joint angles for each of those seven degrees of freedom. These interfaces are cumbersome because the joints are interdependent: setting the angle of one joint, such as the elbow, dictates what angles are possible for the shoulder and vice versa.
+
+Expert roboticists manage high-dimensionality by representing the world in terms of {\em reference frames} (coordinate systems that are defined relative to particular robot part, such as the base or the head-mounted camera) and {\em quaternions} (a matrix that represents position and orientation in 3D space relative to a reference frame). Robot joint positions are typically specified relative to their own reference frame; for example, a robot's wrist, which is located at the end of its arm, can be commanded to rotate around the axis that is aligned with the robot's forearm (similar to the motion we use to screw in a light bulb). Calculating the absolute position of a robot's hand (for example, to determine whether it is near the door handle) requires a series of complex matrix calculations starting from the position of its base, through its shoulder, and all the joints, down to the hand. The opposite problem, calculating the joint positions required to get the hand to a particular position, is called {\em inverse kinematics} and is typically solved using heuristic approximation methods. More generally, techniques for {\em motion planning} calculate whole trajectories of how to move an arm from a starting location to an ending location, using inverse kinematics to compute trajectories for each of the joints in turn.
+
+Toolkits for doing automatic motion planning are on the verge of becoming mature, simplifying the problem of robot arm control from how the arm should move in fine-grained detail to specifying only the high-level target position and orientation. Yet the challenge of specifying that 6-DOF target position and orientation still remains, and this will continue to be a challenge for easy-to-use robot interfaces that work with existing 2D displays and input devices.
+
+\section{Concurrency}
+
+% ROS nodes
+% multiple parts of robots (head, arms, base)
+% callbacks, coroutines, threads
+
+Robots are complex beings full of many moving parts. 
+
+\section{Uncertainty}
+
+% World changes out from under you
+% Hardware fails
+% Incomplete world models
+% Bayesian methods, probabilities
+
+
+
+
 
 \section{ROS}
+
+Let's look at the state of the art in robot programming technology.
 
 % History of ROS
 % Invented by Willow Garage, new operating system for diverse robots
@@ -94,26 +137,6 @@ Telepresence robots:
 	Anybot QB
 	Double
 
-\section{Concurrency}
-
-ROS nodes
-multiple parts of robots (head, arms, base)
-callbacks, coroutines, threads
-
-\section{Uncertainty}
-
-World changes out from under you
-Hardware fails
-Incomplete world models
-Bayesian methods, probabilities
-
-\section{High-dimensionality}
-
-Robot arms have 7DOF
-grasps require 6D
-world is 3D
-quaternions, matrix manipulation
-specialized I/O devices
 
 \section{Speech interfaces}
 
