@@ -58,7 +58,15 @@ Robots are complex beings full of many moving parts.
 % Incomplete world models
 % Bayesian methods, probabilities
 
+Another challenge that robot programmers face is specifying how the robot should behave in an uncertain world. The world is constantly changing: any model that a robot could build of where things are located will be obsolete by the time it turns around. People walk around, objects get lost, furniture gets moved. Moreover, limitations in current sensing technology make it difficult to build a perfectly accurate model of the world. For example, differences in lighting make the same object look very different to an RGB camera. Therefore a robot cannot necessarily trust that it what it perceives is reality, and it must be able to deal with the possibility that what it thinks is true is not actually true.
 
+What does this mean for robot programmers? Robot programs must have mechanisms in place to deal with uncertain truth. Rather than simplying instructing the robot to pick up an object, the program must specify what to do if the object is not where it thinks it is, or is not what it thinks it is.
+
+In addition, robot hardware itself often produces unpredictable results. Unlike software, mechanical parts can slip, burn out, or break. Giving a robot the same instruction multiple times may or may not result in the same result each time.
+
+In order to deal with these various types of uncertainty, professional programmers typically learn to use probabilistic models such as Bayesian networks or HMMs. However, these techniques require expert knowledge to use effectively and are out of the reach of casual programmers who just want to offload their work onto a robotic assistant.
+
+Robots that rely on having a model of the world in order to plan their actions must be able to deal with uncertainty both in the sensing of 
 
 
 
