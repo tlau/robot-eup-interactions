@@ -27,6 +27,8 @@ Yet our experience with Robots for Humanity underscores how difficult it is for 
 
 Until users are able to instruct robots quickly and with low effort, personal robotics will be limited to niche markets.  Why is end user robot programming so challenging? Several compounding factors make it more difficult than normal computer use.
 
+TBD: talk about simplicity vs expressiveness tradeoff here?
+
 \section{High dimensionality}
 
 % Robot arms have 7DOF
@@ -49,7 +51,15 @@ Toolkits for doing automatic motion planning are on the verge of becoming mature
 % multiple parts of robots (head, arms, base)
 % callbacks, coroutines, threads
 
-Robots are complex beings full of many moving parts. 
+Robots are complex beings full of many moving parts. For example, Willow Garage's robotic research platform, the PR-2, has two independently controlled arms, a head that can pan and tilt, a torso that can be raised and lowered, and a base that can move and turn in all directions. Each of these parts must be controlled independently in order to orchestrate a desired robotic behavior.
+
+Concurrent programming is notoriously difficult even for professional programmers due to the possibility for race conditions and the complexity of reasoning about what the program does. Most robot programs can be simplified by only controlling one moving part at a time: first move the base, then raise the torso, then position the left arm, then position the right arm, finally open the cabinet. For many tasks this is a reasonable solution. However there is a subset of human tasks for which we need multiple parts moving simulateously, such as picking up a heavy or bulky object with two hands, or turning one's head to look where one is going.
+
+End user programming systems have tried to simplify the problem of concurrency. One approach used is visualizing the different components on a timeline. This approach is popular with media creation tools such as Apple's GarageBand or Autodesk's 3D Studio Max. A different approach, taken by visual programming languages such as Scratch, enable programmers to define multiple blocks of code within the workspace, all of which run simultaneously and independently.
+
+A second option for concurrency is to reduce the end user's need to write concurrent programs by defining new primitives that cover the common cases where concurrency is needed.  For example, a robot navigation algorithm may include the ability to turn the robot's head to look in the direction of motion, eliminating the need for the user to specify this complex behavior.  As another example, a two-armed robot could have both arms linked in a mirror configuration so that a command to move one arm would cause the other to mirror its motion, thus enabling the robot to pick up symmetric objects with two hands.
+
+Even with higher-level primitives, there will still be a need for concurrent robot programming at a higher level. One form this will take is for background tasks, such as specifying that a robot should try to tidy up the room in between (or during) its other assigned chores. Supporting high level concurrency will introduce new problems, such as task prioritization (should it interrupt its task of bringing you a beer to clean up a wine spill on carpet?).
 
 \section{Uncertainty}
 
@@ -58,16 +68,13 @@ Robots are complex beings full of many moving parts.
 % Incomplete world models
 % Bayesian methods, probabilities
 
-Another challenge that robot programmers face is specifying how the robot should behave in an uncertain world. The world is constantly changing: any model that a robot could build of where things are located will be obsolete by the time it turns around. People walk around, objects get lost, furniture gets moved. Moreover, limitations in current sensing technology make it difficult to build a perfectly accurate model of the world. For example, differences in lighting make the same object look very different to an RGB camera. Therefore a robot cannot necessarily trust that it what it perceives is reality, and it must be able to deal with the possibility that what it thinks is true is not actually true.
-
-What does this mean for robot programmers? Robot programs must have mechanisms in place to deal with uncertain truth. Rather than simplying instructing the robot to pick up an object, the program must specify what to do if the object is not where it thinks it is, or is not what it thinks it is.
+Another challenge that robot programmers face is specifying how the robot should behave in an uncertain world. The world is constantly changing: any model that a robot could build of where things are located will be obsolete by the time it turns around. People walk around, objects get lost, furniture gets moved. Moreover, limitations in current sensing technology make it difficult to build a perfectly accurate model of the world. For example, differences in lighting make the same object look very different to an RGB camera. Therefore a robot cannot necessarily trust what it perceives, and it must be able to deal with the possibility that what it thinks is true is not actually true.
 
 In addition, robot hardware itself often produces unpredictable results. Unlike software, mechanical parts can slip, burn out, or break. Giving a robot the same instruction multiple times may or may not result in the same result each time.
 
-In order to deal with these various types of uncertainty, professional programmers typically learn to use probabilistic models such as Bayesian networks or HMMs. However, these techniques require expert knowledge to use effectively and are out of the reach of casual programmers who just want to offload their work onto a robotic assistant.
+What does this mean for robot programmers? Robot programs must have mechanisms in place to deal with uncertain truth. Rather than simplying instructing the robot to pick up an object, the program must specify what to do if the object is not {\em where} it thinks it is, is not {\em what} it thinks it is, or if the robot fails to perform the desired grasp.
 
-Robots that rely on having a model of the world in order to plan their actions must be able to deal with uncertainty both in the sensing of 
-
+In order to deal with these various types of uncertainty, professional programmers can learn to use probabilistic models such as Bayesian networks or HMMs, or they write code with lots of built-in error checking. However, casual programmers who just want a robot to perform a job in the home would find it burdensome to have to think through all the ways in which the robot could fail, and specify what the recovery strategy should be in each case.
 
 
 \section{ROS}
