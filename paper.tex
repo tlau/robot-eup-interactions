@@ -100,6 +100,8 @@ What does this mean for robot programmers? Robot programs must have mechanisms i
 
 In order to deal with these various types of uncertainty, professional programmers can learn to use probabilistic models such as Bayesian networks or HMMs, or they write code with lots of built-in error checking. However, casual programmers who just want a robot to perform a job in the home would find it burdensome to have to think through all the ways in which the robot could fail, and specify what the recovery strategy should be in each case.
 
+Most end user programming systems to date ignore the problem of uncertainty. Some can get away with this because they operate in a simulated world (such as Scratch). Others, which deal with uncertainty in the form of network requests timing or webservices being down, rely on the user to retry the operation as needed. A good user interface paradigm for handling uncertainty will be needed for end user programmed robot control software to be robust.
+
 \section{The way forward}
 
 
@@ -167,4 +169,3 @@ Impedance mismatch of speech interfaces
 \bibliography{general}
 
 \end{document}
-
