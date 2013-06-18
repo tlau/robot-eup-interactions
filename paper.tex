@@ -1,4 +1,6 @@
 \documentclass{article}
+\usepackage{graphicx}
+
 \begin{document}
 
 \title {Robot programming for dummies}
@@ -27,7 +29,29 @@ Yet our experience with Robots for Humanity underscores how difficult it is for 
 
 Until users are able to instruct robots quickly and with low effort, personal robotics will be limited to niche markets.  Why is end user robot programming so challenging? Several compounding factors make it more difficult than normal computer use.
 
-TBD: talk about simplicity vs expressiveness tradeoff here?
+\section{The state of the art}
+
+% History of ROS
+% Invented by Willow Garage, new operating system for diverse robots
+% Current reach
+% Running on robots from PR2 to android-powered XXX
+% Provides very rich control substrate for programming the behavior of complex robots
+
+The Robot Operating System is one of the software advances that supports the rapid development of new robotics technology.  First developed in 2007 at the Stanford Articifial Intelligence Laboratory, ROS was maintained by Willow Garage from 2008-2013 and has recently transitioned into the stewardship of the non-profit Open Source Robotics Foundation.
+
+ROS provides a distributed publish/subscribe messaging platform for a collection of {\em nodes} to communicate with each other. Each node encapsulates a small amount of robot functionality, and interfaces with the rest of the ROS ecosystem to make that functionality available through a common interface. For example, ROS nodes exist to stream video from webcams, control the motors in robot arms, plan a path from one point to another, and recognize graspable objects in an image.
+
+Before ROS, roboticists had to create the software to control their robots from scratch, each doing the same work to create device drivers and rebuild libraries for their specific robot's hardware.  Now, ROS has been ported to around 100 different models of robots worldwide\footnote{http://www.ros.org/wiki/Robots}, enabling roboticists to quickly bring a new robot model online.
+
+\begin{figure}[tbh]
+\scalebox{0.15}{\includegraphics{rviz.png}}
+\caption{RViz interface for controlling robots}
+\label{rviz}
+\end{figure}
+
+However, ROS provides a fairly low-level interface to robot control. Designed for roboticists, the RViz interface (Figure~\ref{rviz}) displays all the sensor feeds coming from the robot and lets one send low-level motion commands to the robot such as rolling forward or rotating the shoulder joint. In the figure, a robot is shown examining objects on a table in front of it. The green pattern represents the data from a depth sensor mounted on the robot's head, whereas the purple line represents the walls detected by a laser rangefinder mounted on the robot's base. The tricolored axes display the various coordinate frames in use, and the gray floor displays the map the robot uses for navigation. (TODO: display costmaps, TF axes)
+
+This interface, while well suited for roboticists who need to examine the low-level sensor data and messages being processed by the robot, is not very user-friendly. It also illustrates some of the difficulties inherent in robot programming, which I will detail next.
 
 \section{High dimensionality}
 
@@ -76,25 +100,7 @@ What does this mean for robot programmers? Robot programs must have mechanisms i
 
 In order to deal with these various types of uncertainty, professional programmers can learn to use probabilistic models such as Bayesian networks or HMMs, or they write code with lots of built-in error checking. However, casual programmers who just want a robot to perform a job in the home would find it burdensome to have to think through all the ways in which the robot could fail, and specify what the recovery strategy should be in each case.
 
-
-\section{ROS}
-
-Let's look at the state of the art in robot programming technology.
-
-% History of ROS
-% Invented by Willow Garage, new operating system for diverse robots
-% Current reach
-% Running on robots from PR2 to android-powered XXX
-% Provides very rich control substrate for programming the behavior of complex robots
-
-The Robot Operating System is one of the software advances that supports the rapid development of new robotics technology.  First developed in 2007 at the Stanford Articifial Intelligence Laboratory, ROS was maintained by Willow Garage from 2008-2013 and has recently transitioned into the stewardship of the non-profit Open Source Robotics Foundation.
-
-ROS provides a distributed publish/subscribe messaging platform for a collection of {\em nodes} to communicate with each other.
-
-Before ROS, roboticists had to create the software to control their robots from scratch, each doing the same work to create device drivers and rebuild libraries for their specific robot's hardware.
-
-ROS runs on 50-100 robots
-
+\section{The way forward}
 
 
 
