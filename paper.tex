@@ -3,7 +3,7 @@
 
 \begin{document}
 
-\title {Robot programming for dummies}
+\title {Why robot programming is hard}
 \author {Tessa Lau \\
 Willow Garage \\
 Menlo Park, CA USA \\
@@ -19,11 +19,11 @@ All these innovations have become possible through multiple advances: in sensor 
 
 Yet the holy grail of personal robotics remains elusive. When will we have our own Rosie the Robot (from the Jetsons cartoon) to take over housekeeping chores? When will disabled adults have robot helpers to assist them in activities of daily living? All of these advances in robotics still fall short of the goal of creating personal robots that can do whatever we want them to do.
 
-Actually, the problem is not that robots {\em can't} do what we want them to do. The problem is that it's too difficult to {\em tell} robots what we want them to do. The first company to crack the nut of end user robot programming will corner the market on household robots. Human-robot interaction is the missing link for widespread personal robotics.
+Actually, the problem is not that robots {\em cannot} do what we want them to do. The problem is that it is too difficult to {\em tell} robots what we want them to do. The first company to crack the nut of end user robot programming will corner the market on household robots. Human-robot interaction is the missing link for widespread personal robotics.
 
 \section{Case study: Robots for Humanity}
 
-One potential use case for personal robotics will be in-home care and assistance for disabled adults. The Robots for Humanity project, a collaboration between Willow Garage and Georgia Tech, aims to develop technology that enables persons with motor impairments to perform personal care tasks that they otherwise might not have been able to perform without assistance, such as picking up a dropped object, fetching a towel, or even scratching an itch. Its first prototypes have enabled Henry Evans, a mute quadriplegic, to act in the world for the first time since a brainstem stroke left him paralyzed. Limited to the ability to move a single finger, Henry has been able to instruct Willow Garage's PR2 robots to open cabinets, fetch food from the refrigerator, and even dole out candy to trick-or-treating kids on his behalf.
+One potential use case for personal robotics will be in-home care and assistance for disabled adults. The Robots for Humanity project~\cite{rfh}, a collaboration between Willow Garage and Georgia Tech, aims to develop technology that enables persons with motor impairments to perform personal care tasks that they otherwise might not have been able to perform without assistance, such as picking up a dropped object, fetching a towel, or even scratching an itch. Its first prototypes have enabled Henry Evans, a mute quadriplegic, to act in the world for the first time since a brainstem stroke left him paralyzed. Limited to the ability to move a single finger, Henry has been able to instruct Willow Garage's PR2 robots to open cabinets, fetch food from the refrigerator, and even dole out candy to trick-or-treating kids on his behalf.
 
 Yet our experience with Robots for Humanity underscores how difficult it is for ordinary mortals to instruct robots what to do. Even using state-of-the-art robot visualization software developed at Willow Garage, simple tasks such as opening a cabinet door could take Henry upwards of 15 minutes to accomplish.  While Henry has only limited interaction capabilities due to motor impairment, he also has incredible motivation. Ordinary consumers, on the other hand, while fully able-bodied, may not share the same perseverance in programming robots.
 
@@ -37,7 +37,7 @@ Until users are able to instruct robots quickly and with low effort, personal ro
 % Running on robots from PR2 to android-powered XXX
 % Provides very rich control substrate for programming the behavior of complex robots
 
-The Robot Operating System is one of the software advances that supports the rapid development of new robotics technology.  First developed in 2007 at the Stanford Articifial Intelligence Laboratory, ROS was maintained by Willow Garage from 2008-2013 and has recently transitioned into the stewardship of the non-profit Open Source Robotics Foundation.
+The Robot Operating System\cite{ros} is one of the software advances that supports the rapid development of new robotics technology.  First developed in 2007 at the Stanford Articifial Intelligence Laboratory, ROS was maintained by Willow Garage from 2008-2013 and has recently transitioned into the stewardship of the non-profit Open Source Robotics Foundation.
 
 ROS provides a distributed publish/subscribe messaging platform for a collection of {\em nodes} to communicate with each other. Each node encapsulates a small amount of robot functionality, and interfaces with the rest of the ROS ecosystem to make that functionality available through a common interface. For example, ROS nodes exist to stream video from webcams, control the motors in robot arms, plan a path from one point to another, and recognize graspable objects in an image.
 
@@ -77,7 +77,7 @@ Toolkits for doing automatic motion planning are on the verge of becoming mature
 
 Robots are complex beings full of many moving parts. For example, Willow Garage's robotic research platform, the PR-2, has two independently controlled arms, a head that can pan and tilt, a torso that can be raised and lowered, and a base that can move and turn in all directions. Each of these parts must be controlled independently in order to orchestrate a desired robotic behavior.
 
-Concurrent programming is notoriously difficult even for professional programmers due to the possibility for race conditions and the complexity of reasoning about what the program does. Most robot programs can be simplified by only controlling one moving part at a time: first move the base, then raise the torso, then position the left arm, then position the right arm, finally open the cabinet. For many tasks this is a reasonable solution. However there is a subset of human tasks for which we need multiple parts moving simulateously, such as picking up a heavy or bulky object with two hands, or turning one's head to look where one is going.
+Concurrent programming is notoriously difficult even for professional programmers due to the possibility for race conditions and the complexity of reasoning about what the program does. Most robot programs can be simplified by only controlling one moving part at a time: first move the base, then raise the torso, then position the left arm, then position the right arm, finally open the cabinet. For many tasks this is a reasonable solution. However there is a subset of human tasks for which we need multiple parts moving simultaneously, such as picking up a heavy or bulky object with two hands, or turning one's head to look where one is going.
 
 End user programming systems have tried to simplify the problem of concurrency. One approach used is visualizing the different components on a timeline. This approach is popular with media creation tools such as Apple's GarageBand or Autodesk's 3D Studio Max. A different approach, taken by visual programming languages such as Scratch, enable programmers to define multiple blocks of code within the workspace, all of which run simultaneously and independently.
 
@@ -92,18 +92,29 @@ Even with higher-level primitives, there will still be a need for concurrent rob
 % Incomplete world models
 % Bayesian methods, probabilities
 
-Another challenge that robot programmers face is specifying how the robot should behave in an uncertain world. The world is constantly changing: any model that a robot could build of where things are located will be obsolete by the time it turns around. People walk around, objects get lost, furniture gets moved. Moreover, limitations in current sensing technology make it difficult to build a perfectly accurate model of the world. For example, differences in lighting make the same object look very different to an RGB camera. Therefore a robot cannot necessarily trust what it perceives, and it must be able to deal with the possibility that what it thinks is true is not actually true.
+Another challenge that robot programmers face is specifying how a robot should behave in an uncertain world. The world is constantly changing: any model that a robot could build of where things are located will be obsolete by the time it turns around. People walk around, objects get lost, furniture gets moved. Moreover, limitations in current sensing technology make it difficult to build a perfectly accurate model of the world. For example, differences in lighting make the same object look very different to an RGB camera. Therefore a robot cannot necessarily trust what it perceives, and it must be able to deal with the possibility that what it thinks is true is not actually true.
 
-In addition, robot hardware itself often produces unpredictable results. Unlike software, mechanical parts can slip, burn out, or break. Giving a robot the same instruction multiple times may or may not result in the same result each time.
+In addition, robot hardware itself often produces unpredictable results. Unlike software, mechanical parts can slip, burn out, or break. Giving a robot the same instruction multiple times may or may not result in the same outcome each time.
 
 What does this mean for robot programmers? Robot programs must have mechanisms in place to deal with uncertain truth. Rather than simplying instructing the robot to pick up an object, the program must specify what to do if the object is not {\em where} it thinks it is, is not {\em what} it thinks it is, or if the robot fails to perform the desired grasp.
 
-In order to deal with these various types of uncertainty, professional programmers can learn to use probabilistic models such as Bayesian networks or HMMs, or they write code with lots of built-in error checking. However, casual programmers who just want a robot to perform a job in the home would find it burdensome to have to think through all the ways in which the robot could fail, and specify what the recovery strategy should be in each case.
+In order to deal with these various types of uncertainty, professional programmers can learn to use probabilistic models such as Bayesian networks or HMMs, or they write code with lots of built-in error checking. However, casual programmers who just want a robot to perform a job in the home would find it burdensome to have to elaborate recovery strategies for each of the different failure conditions.
 
 Most end user programming systems to date ignore the problem of uncertainty. Some can get away with this because they operate in a simulated world (such as Scratch). Others, which deal with uncertainty in the form of network requests timing or webservices being down, rely on the user to retry the operation as needed. A good user interface paradigm for handling uncertainty will be needed for end user programmed robot control software to be robust.
 
 \section{The way forward}
 
+Robot programming environments are beginning to address these challenges and produce useful systems that can be controlled by untrained users. The key tradeoff is simplicity versus expressiveness: in order to make systems that are more tractable for novices, they need to simplify key aspects of the robot's behavior, thereby sacrificing its ability to perform a full range of behavior.
+
+This past generation of commercial home robots illustrates one extreme end of the simplicity/expressiveness tradeoff. iRobot's successful Roomba line of vacuum-cleaning robots\footnote{http://www.irobot.com/us/learn/home/roomba.aspx} sports a single-button interface that simply says ``Clean''.
+
+The next generation of commercial robots in this space will likely look like Rethink Robots' Baxter system\footnote{http://www.rethinkrobotics.com/index.php/products/baxter/}.  Baxter is a two-armed manipulator than can be programmed by demonstration to automate factory work simply by guiding its arms to the appropriate position and tapping icons on the robot's ``face''.  This style of programming makes it possible for people to specify the robot's behavior directly on the robot, without having to deal with any abstractions. In addition, Baxter performs its work in a human-safe way, immediately ceasing motion if it detects that a human has moved into its path, enabling it to work side by side with factory workers unlike previous generations of industrial robots.
+
+For the future, our team at Willow Garage is exploring different tradeoff points in the space of simplicity versus expressiveness. One research direction we have been exploring is to look at specific verticals and design a customized set of robot programming primitives specifically for that domain. Each of these primitives can be hand-crafted in the lab by expert roboticists to embody a rich amount of automation, parallelism, and support for uncertainty. The end user programming problem is then a simpler matter of sequencing these higher-level primitives into useful, customizable programs for their environment.
+
+For example, our team has been doing ethnographic investigations of employees in continuing care retirement centers to discover how robotic helpers could enable them to spend more time with residents. We have discovered that a robotic assistant who could autonomously fetch and deliver supplies to arbitrary locations within the facility could be beneficial to their workflow. Based on those findings, we have defined a set of primitives that include picking up and dropping off supply bins, navigating autonomously to pre-defined locations, and prompting for user input via a touchscreen on the robot's ``face''. End user programmers will be able to sequence these primitives themselves to design custom behaviors for a robotic delivery system, while expert roboticists can focus on making individual primitives robust using the full slate of advanced programming techniques at their disposal.
+
+Over time, as we discover and build new domain-specific primitives, my hope is that we will expand the repertoire of robust end-user-programmable robot behavior. And perhaps that goal of having our own Rosie the Robot in our homes will soon become a reality.
 
 
 
@@ -121,49 +132,53 @@ Most end user programming systems to date ignore the problem of uncertainty. Som
 
 
 
-Why robotics is becoming important
-Statistics on size of market
-Number of research investments?
-
-Main points:
-	EUP is what will enable robotics to spawn new industries
-	by enabling businesses to customize robot behavior for their own needs
-
-	Yet programming robots is difficult
-	State of the art today is demonstrational, which works well for limited, repetitive tasks
-	Or using highly technical tools to specify fine-grained robot behavior
-	Behavior specification requires much deep technical knowledge
-	Not only the traditionally hard topics in EUP such as conditionals, loops, variables
-	But also advanced topics like concurrency, uncertainty, high-dimensionality
-
-The challenge for robotics is to bring robots to market that are consumer-friendly and can operate in human environments. For limited tasks, we are seeing robots that can perform one single task very well without getting in the way of the humans in the household. Vacuum cleaner robots like the iRobot's Roomba and the Neato XV are flooding the market. The Robomow robotic lawn mower performs a similar task for your lawn. Undoubtedly their success is due to their extremely simple interface: the Roomba has a single large button labeled ``Clean''.
 
 
-read this: http://workshop.iroboticist.com/why-robotics/
-
-\section{Related work}
-
-Roomba, Neato in consumer use
-	http://www.neatorobotics.com/
-	http://store.irobot.com/home/index.jsp
-Baxter human-safe 2-armed manipulator
-	runs ROS
-	http://www.ros.org/news/2012/09/rethink-ros.html
-	http://www.rethinkrobotics.com/index.php/products/baxter/
-Industrial robots:
-	KUKA robot arm http://en.wikipedia.org/wiki/KUKA
-Toyota's human support robot:
-	runs ROS
-	http://www.gizmag.com/toyota-human-support-robot/24246/
-Telepresence robots:
-	Beam
-	Anybot QB
-	Double
 
 
-\section{Speech interfaces}
-
-Impedance mismatch of speech interfaces
+% Why robotics is becoming important
+% Statistics on size of market
+% Number of research investments?
+% 
+% Main points:
+% 	EUP is what will enable robotics to spawn new industries
+% 	by enabling businesses to customize robot behavior for their own needs
+% 
+% 	Yet programming robots is difficult
+% 	State of the art today is demonstrational, which works well for limited, repetitive tasks
+% 	Or using highly technical tools to specify fine-grained robot behavior
+% 	Behavior specification requires much deep technical knowledge
+% 	Not only the traditionally hard topics in EUP such as conditionals, loops, variables
+% 	But also advanced topics like concurrency, uncertainty, high-dimensionality
+% 
+% The challenge for robotics is to bring robots to market that are consumer-friendly and can operate in human environments. For limited tasks, we are seeing robots that can perform one single task very well without getting in the way of the humans in the household. Vacuum cleaner robots like the iRobot's Roomba and the Neato XV are flooding the market. The Robomow robotic lawn mower performs a similar task for your lawn. Undoubtedly their success is due to their extremely simple interface: the Roomba has a single large button labeled ``Clean''.
+% 
+% 
+% read this: http://workshop.iroboticist.com/why-robotics/
+% 
+% \section{Related work}
+% 
+% Roomba, Neato in consumer use
+% 	http://www.neatorobotics.com/
+% 	http://store.irobot.com/home/index.jsp
+% Baxter human-safe 2-armed manipulator
+% 	runs ROS
+% 	http://www.ros.org/news/2012/09/rethink-ros.html
+% 	http://www.rethinkrobotics.com/index.php/products/baxter/
+% Industrial robots:
+% 	KUKA robot arm http://en.wikipedia.org/wiki/KUKA
+% Toyota's human support robot:
+% 	runs ROS
+% 	http://www.gizmag.com/toyota-human-support-robot/24246/
+% Telepresence robots:
+% 	Beam
+% 	Anybot QB
+% 	Double
+% 
+% 
+% \section{Speech interfaces}
+% 
+% Impedance mismatch of speech interfaces
 
 \bibliographystyle{plain}
 \bibliography{general}
