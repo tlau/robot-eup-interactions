@@ -25,7 +25,7 @@ In demonstrational interfaces, a human operator moves a robot through a series o
 
 Teleop consists of synchronously controlling a robot using software and hardware interfaces from a computer which may or may not be co-located with the robot. For example, a PS3 joystick controller could be used to drive a robot around a building, and activate certain pre-programmed motions such as turning its head or extending its arms. Remote teleop consists of controlling the robot over a distance, perhaps over the internet, using GUIs that allow the human operator to move various parts of the robot.
 
-Both demonstration and teleop suffer the limitation that a human operator must be immediately in the loop while the robot is operating. To make robots useful in the home, they will need to function {\em autonomously}, which leads to the notion of robot programming: giving high-level directives to robots so that they can function on their own without direct human guidance.  A full programming solution will likely involve a blend of different techniques including demonstration, teleop, and autonomous subroutines. For example, a task of setting the dinner table may include a high-level program of fetching silverware from the kitchen and placing it on the dining table, a demonstration of how to open this particular style of cabinet, and teleoperation when something goes awry (such as the silverware drawer being empty).
+Both demonstration and teleop suffer the limitation that a human operator must be immediately in the loop while the robot is operating. To make robots useful in the home, they will need to function {\em autonomously}, which leads to the notion of robot programming: giving high-level directives to robots so that they can function on their own without direct human guidance.  A full programming solution will likely involve a blend of different techniques including demonstration, teleop, and autonomous subroutines. For example, a task of setting the dinner table may include a high-level program of fetching silverware from the kitchen and placing it on the dining table, a demonstration of how to open this particular silverware drawer, and teleoperation when something goes awry (such as the silverware drawer being empty).
 
 For personal robotics to truly succeed, robot programming will need to be simple enough that non-experts can do it.
 
@@ -35,11 +35,15 @@ One important use case for personal robotics will be in-home care and assistance
 
 % TODO: conflating robot programming with teleop
 
-Yet our experience with Robots for Humanity underscores how difficult it is for ordinary mortals to instruct robots what to do. Even using state-of-the-art robot visualization software developed at Willow Garage, simple teleoperation tasks such as opening a cabinet door could take Henry upwards of 15 minutes to accomplish.  While Henry has only limited interaction capabilities due to motor impairment, he is also strongly motivated. Ordinary able-bodied consumers, on the other hand, would quickly lose patience. If basic robot control via teleoperation is so time-consuming, what hope do we have that people will ever get around to the general task of robot programming?
+Yet our experience with Robots for Humanity underscores how difficult it is for ordinary mortals to instruct robots what to do. Even using state-of-the-art robot visualization software developed at Willow Garage, simple teleoperation tasks such as opening a cabinet door could take Henry upwards of 15 minutes to accomplish.  While Henry has only limited interaction capabilities, he is also strongly motivated because he has no alternatives. Able-bodied consumers, on the other hand, would quickly lose patience. If even basic robot control via teleoperation is so time-consuming, what hope do we have that people will ever get around to the general task of robot programming?
 
-Granted, designing programming interfaces for motor impaired users is like playing the piano with both hands tied behind your back. Yet while Henry's case highlights the challenges of creating usable interfaces for assistive robotics, it also showcases the enormous benefit to humanity of enabling disabled adults to regain some of their independence.
+Granted, designing teleoperation interfaces for motor-impaired users is deliberately trying to solve the hardest problem first.  Yet while Henry's case highlights the challenges of creating usable assistive robotics interfaces, it also illustrates the enormous benefit to humanity of enabling disabled adults to regain some of their independence.
 
-Until users are able to instruct robots quickly and with low effort, personal robotics will be limited to niche markets.  Why is end user robot programming so challenging? Several compounding factors make it more difficult than normal computer use.
+With this goal in mind, autonomous programmable robots are more than a consumer toy, but a technology that could changes people's lives for the better. Why, then, does robot programming for the masses remain such a difficult challenge? What makes robots so difficult to control?
+
+The explanation begins with a look at the state of the art in robot software today.
+
+% Until users are able to instruct robots quickly and with low effort, personal robotics will be limited to niche markets.  Why is end user robot programming so challenging? Several compounding factors make it more difficult than normal computer use.
 
 \section{The state of the art}
 
@@ -51,21 +55,21 @@ Until users are able to instruct robots quickly and with low effort, personal ro
 
 The Robot Operating System\cite{ros} is one of the software advances that supports the rapid development of new robotics technology.  First developed in 2007 at the Stanford Artificial Intelligence Laboratory, ROS was maintained by Willow Garage from 2008-2013 and has recently transitioned into the stewardship of the non-profit Open Source Robotics Foundation.
 
-ROS provides a distributed publish/subscribe messaging platform for a collection of {\em nodes} to communicate with each other. Each node encapsulates a small amount of robot functionality, and interfaces with the rest of the ROS ecosystem to make that functionality available through a common interface. For example, ROS nodes exist to stream video from webcams, control the motors in robot arms, plan a path from one point to another, and recognize graspable objects in an image.
+ROS provides a distributed publish/subscribe messaging platform for a collection of {\em nodes} to communicate with each other. Each node encapsulates a small amount of robot functionality, and interfaces with the rest of the ROS ecosystem to make that functionality available through a common interface. For example, ROS nodes exist to stream sensor data from webcams and laser rangefinders, control the motors in robot arms, plan a path from one point to another, and recognize graspable objects in an image.
 
 Before ROS, roboticists had to create the software to control their robots from scratch, each doing the same work to create device drivers and rebuild libraries for their specific robot's hardware.  Now, ROS has been ported to around 100 different models of robots worldwide\footnote{http://www.ros.org/wiki/Robots}, enabling roboticists to quickly bring a new robot model online.
 
-\begin{figure}[tbh]
-\scalebox{0.15}{\includegraphics{rviz.png}}
+\begin{figure*}[tbh]
+\center\scalebox{0.20}{\includegraphics{rviz.png}}
 \caption{RViz interface for controlling robots}
 \label{rviz}
-\end{figure}
+\end{figure*}
 
 However, ROS provides a fairly low-level interface to robot control. Designed for roboticists, the RViz interface (Figure~\ref{rviz}) displays all the sensor feeds coming from the robot and lets one send low-level motion commands to the robot such as rolling forward or rotating the shoulder joint. In the figure, a robot is shown examining objects on a table in front of it. The green pattern represents the data from a depth sensor mounted on the robot's head, whereas the purple line represents the walls detected by a laser rangefinder mounted on the robot's base. The tricolored axes display the various coordinate frames in use, and the gray floor displays the map the robot uses for navigation. (TODO: display costmaps, TF axes)
 
-This interface, while well suited for roboticists who need to examine the low-level sensor data and messages being processed by the robot, is not very user-friendly. It also illustrates some of the difficulties inherent in robot programming, described below.
+This interface, while well suited for roboticists who need to examine the low-level sensor data and messages being processed by the robot, is not very user-friendly. It also illustrates some of the difficulties inherent in robot programming.
 
-\section{High dimensionality}
+\section{A 3D world}
 
 % Robot arms have 7DOF
 % grasps require 6D
@@ -73,15 +77,27 @@ This interface, while well suited for roboticists who need to examine the low-le
 % quaternions, matrix manipulation
 % specialized I/O devices
 
-Unlike traditional computer interfaces which are restricted to two dimensions, robot control requires manipulating objects in a three-dimensional world. Visualizing a 3D world on existing 2D displays requires the extra dimension to be projected down into two dimensions, giving rise to the popular ``first person shooter'' style of interface. These interfaces display the world as perceived from a virtual camera, where objects can be occluded by other objects. Additional camera controls are needed to pan/zoom around the space to overcome occlusion, and these controls can be nonintuitive to non-expert computer users.
+Unlike traditional computer interfaces which are limited to two dimensions, robot control requires manipulating objects in a three-dimensional world. Visualizing a 3D world on existing 2D displays requires the extra dimension to be projected down into two dimensions, giving rise to the popular ``first person shooter'' style of interface. These interfaces display the world as perceived from a virtual camera, where objects can be occluded by other objects. Additional camera controls are needed to pan/zoom around the space to overcome occlusion. These controls are often non-intuitive, even to seasoned computer users.
 
-High dimensionality is even more important in specifying how to grasp and place objects in the world.  In many cases, the robot itself might occlude the object it is trying to manipulate. For example, if a robot uses its arm to pick up an object on a table in front of it, the arm might get in the way of a sensor mounted on its head, preventing the robot from seeing the exact thing it is trying to grasp! One solution developed by roboticists has been to include additional cameras on different parts of the robot, such as a forearm-mounted camera, to get a better view on the object being picked up. However, making sense of multiple translated and rotated video streams can be confusing for those of us accustomed to seeing only from our own head-mounted eye sensors!
+Occlusion presents a challenge because robots must perceive an object in order to manipulate it.  Often times, the robot itself might occlude the object it is trying to manipulate! For example, consider a humanoid robot with head-mounted vision sensors using an arm to pick up an object from the table in front of it. While moving the arm into position to grasp the object, the arm will likely come between the head and the object, obscuring the robot's vision.
+
+One solution has been to mount additional cameras on different parts of the robot, such as on the robot's forearm or wrist, to get a better view on the object being picked up. However, making sense of multiple translated and rotated video streams can be confusing for those of us accustomed to perceiving the world only through head-mounted eye sensors!
+
+Typical input devices such as mice and touchscreens are also only good for interacting in two dimensions. For example, tapping on a point in a camera image does not uniquely identify a point in 3D space, but a line of possible points. When telling a robot to put something down, how can it know which of those points was meant? Current interfaces, such as the RViz display shown in Figure~\ref{rviz}, require complex camera manipulation and precise 3D positioning in order to uniquely specify the desired location.
+
+\section{Arm complexity}
+
+A different aspect of high-dimensionality comes from the design of robot arms. A solid object in 3D space has six degrees of freedom (DOF): three dimensions to specify its position, and three more to specify its rotation. If a robot arm had only 6-DOF and was trying to execute a specific grasp of a particular object, such as picking up soda can from the side, there would be only a single arm configuration that would allow the gripper to pick up the can. In contrast, human arms and advanced robot arms have 7-DOF, which allows them one extra dimension of flexibility in achieving those grasps. To visualize this, imagine grasping a soda can on the table in front of you and then flapping your elbow up and down while keeping the can stationary. That extra degree of freedom enables your arm to take on all those different shapes while still achieving the desired grasp.
+
+Interfaces for robot arm teleoperation typically involve setting the position or angle of each joint in the arm individually. For example, a tablet-style interface might have fourteen buttons, one pair used to increase or decrease the angle of each joint in the arm. That additional degree of freedom makes it easier to identify a valid arm configuration for executing a grasp, since only one of many valid configurations must be found, not the unique one.  
+
+For teleoperators who are manually positioning a robot arm must only find one way to position the various joints
+
+It may also make it easier for teleoperators to find a valid arm configuration to reach a desired grasp. Yet those seven degrees of freedom also represent seven variables to control when using a direct-manipulation teleop interface
 
 High dimensionality also makes it difficult to specify to how pick up objects using a robotic gripper. A solid object has six degrees of freedom: three degrees to specify its position, and another three to specify its rotation. The human arm, and the most advanced robotic arms, have seven degrees of freedom.  Many robot arm control interfaces ask users to independently specify joint angles for each of those seven degrees of freedom. These interfaces are cumbersome because the joints are interdependent: setting the angle of one joint, such as the elbow, dictates what angles are possible for the shoulder and vice versa. There is a tradeoff between exposing these joint limitations to the programmer, which allows precise yet complex control, versus insulating a programmer from those considerations, which may lead to unpredictable behavior that is difficult to debug.
 
 Expert roboticists manage high-dimensionality by representing the world in terms of {\em reference frames} (coordinate systems that are defined relative to particular robot part, such as the base or the head-mounted camera) and use matrix algebra to convert between different frames of reference. Robot joint positions are typically specified relative to their own reference frame; for example, a robot's wrist, which is located at the end of its arm, can be commanded to rotate around the axis that is aligned with the robot's forearm (similar to the motion we use to screw in a light bulb). Calculating the absolute position of a robot's hand (for example, to determine whether it is near the door handle) requires a series of complex matrix calculations starting from the position of its base, through its shoulder, and all the joints, down to the hand. The opposite problem, calculating the joint positions required to get the hand to a particular position, is called {\em inverse kinematics} and is typically solved using either analytical equations or heuristic approximation methods.
-
-% TODO: introduce DOF acronym earlier
 
 Toolkits for doing automatic motion planning are on the verge of becoming mature, simplifying the problem of robot arm control from how the arm should move in fine-grained detail to specifying only the high-level target position and orientation. Yet the challenge of specifying that 6-DOF target position and orientation still remains, and this will continue to be a challenge for easy-to-use robot interfaces that work with existing 2D displays and input devices.
 
