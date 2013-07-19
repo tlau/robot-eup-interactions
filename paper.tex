@@ -61,7 +61,7 @@ Before ROS, roboticists had to create the software to control their robots from 
 
 \begin{figure*}[tbh]
 \center\scalebox{0.20}{\includegraphics{rviz.png}}
-\caption{RViz interface for controlling robots}
+\caption{RViz interface for robot visualization}
 \label{rviz}
 \end{figure*}
 
@@ -101,22 +101,6 @@ Sending an arm to a specific position is useful for robot tasks such as, for exa
 
 Toolkits for doing automatic motion planning are maturing, which will simplify the problem of robot arm control from how the arm should move in fine-grained detail to specifying only the high-level target position and orientation. Yet the challenge of specifying that 6-DOF target position and orientation still remains, and this will continue to be a challenge for easy-to-use robot interfaces that work with existing 2D displays and input devices.
 
-\section{Concurrency}
-
-% ROS nodes
-% multiple parts of robots (head, arms, base)
-% callbacks, coroutines, threads
-
-Robots are complex beings full of many moving parts. For example, Willow Garage's robotic research platform, the PR-2, has two independently controlled 7-DOF arms, a head that can pan and tilt, a torso that can be raised and lowered, and a base that can move and turn in all directions. Each of these parts must be controlled independently in order to orchestrate a desired robotic behavior.
-
-Concurrent programming is notoriously difficult even for professional programmers due to the possibility for race conditions and the complexity of reasoning about what the program does. Most robot programs can be simplified by only controlling one moving part at a time: first move the base, then raise the torso, then position the left arm, then position the right arm, finally open the cabinet. For many tasks this is a reasonable solution. However there is a subset of human tasks for which we need multiple parts moving simultaneously, such as picking up a heavy or bulky object with two hands, or turning one's head to look where one is going.
-
-End user programming systems have tried to simplify the problem of concurrency. One approach used is visualizing the different components on a timeline. This approach is popular with media creation tools such as Apple's GarageBand or Autodesk's 3D Studio Max. A second paradigm, taken by visual programming languages such as Scratch, makes the notion of time a global constant and runs all blocks of user code simultaneously in the virtual environment. More research is needed to discover what paradigm works best for controlling robot parts concurrently.
-
-% A second option for concurrency is to reduce the end user's need to write concurrent programs by defining new primitives that cover the common cases where concurrency is needed.  For example, a robot navigation algorithm may include the ability to turn the robot's head to look in the direction of motion, eliminating the need for the user to specify this complex behavior.  As another example, a two-armed robot could have both arms linked in a mirror configuration so that a command to move one arm would cause the other to mirror its motion, thus enabling the robot to pick up symmetric objects with two hands.
-
-Even if individual robot parts can be programmed to act in parallel, there will still be a need for reasoning about concurrent robot behavior at a higher level. One form this will take is for background tasks, such as specifying that a robot should try to tidy up the room in between (or during) its other assigned chores. Supporting high level concurrency will introduce new problems, such as task prioritization (should it interrupt its task of bringing you a beer to clean up a wine spill on carpet?).
-
 \section{Uncertainty}
 
 % World changes out from under you
@@ -132,9 +116,25 @@ What does this mean for robot programmers? Robot programs must have mechanisms i
 
 In order to deal with these various types of uncertainty, professional programmers learn to use probabilistic models and learn to craft fault-tolerant code with frequent error checking, which seems like an heavy burden for casual programmers. Most end user programming systems to date simply ignore the problem of uncertainty. For robot programming to be successful, we will need to develop easily-understandable paradigms for handling uncertainty.
 
+\section{Concurrency}
+
+% ROS nodes
+% multiple parts of robots (head, arms, base)
+% callbacks, coroutines, threads
+
+Robots are complex beings full of many moving parts. For example, Willow Garage's PR-2 has two independently controlled 7-DOF arms, a head that can pan and tilt, a torso that can be raised and lowered, and a base that can move and turn in all directions. Robots are also equipped with a slew of sensors including cameras, depth sensors, laser rangefinders, touch sensors, and feedback about its electrical and motor systems. Sensors and actuators must be operated together in coordination to produce a desired robotic behavior.
+
+Concurrent programming is notoriously difficult even for professional programmers due to the possibility for race conditions and the complexity of reasoning about what the program does. Most robot programs can be simplified by only controlling one moving part at a time: first move the base, then raise the torso, then position the left arm, then position the right arm, finally open the cabinet. For many tasks this is a reasonable solution. However there is a subset of human tasks for which we need multiple parts moving simultaneously, such as picking up a heavy or bulky object with two hands, or turning one's head to look where one is going.
+
+End user programming systems have tried to simplify the problem of concurrency. Some systems visualize the different components on a timeline. This approach is popular with media creation tools such as Apple's GarageBand or Autodesk's 3D Studio Max. A second paradigm, taken by visual programming languages such as Scratch~\cite{scratch}, makes the notion of time a global constant and runs all blocks of user code simultaneously in the virtual environment. More research is needed to discover what paradigm works best for controlling robot parts concurrently.
+
+% A second option for concurrency is to reduce the end user's need to write concurrent programs by defining new primitives that cover the common cases where concurrency is needed.  For example, a robot navigation algorithm may include the ability to turn the robot's head to look in the direction of motion, eliminating the need for the user to specify this complex behavior.  As another example, a two-armed robot could have both arms linked in a mirror configuration so that a command to move one arm would cause the other to mirror its motion, thus enabling the robot to pick up symmetric objects with two hands.
+
+Even if individual robot parts can be programmed to act in parallel, there will still be a need for reasoning about concurrent robot behavior at a higher level. One form this will take is for background tasks, such as specifying that a robot should try to tidy up the room in between (or during) its other assigned chores. Supporting high level concurrency will introduce new problems, such as task prioritization (is the current task of bringing you a beer more important than cleaning up the wine spill it just detected?).
+
 \section{The way forward}
 
-Robot programming environments are beginning to address these challenges and produce useful systems that can be controlled by untrained users. The key tradeoff is simplicity versus expressiveness: in order to make systems that are more tractable for novices, they need to simplify key aspects of the robot's behavior, thereby sacrificing its ability to perform a full range of behavior.
+Robot programming environments are beginning to address all of these challenges and produce useful systems that can be controlled by untrained users. The key tradeoff is simplicity versus expressiveness: in order to make systems that are more tractable for novices, they need to simplify key aspects of the robot's behavior, thereby sacrificing its ability to perform a full range of behavior.
 
 This past generation of commercial home robots illustrates one extreme end of the simplicity versus expressiveness tradeoff. iRobot's successful Roomba line of vacuum-cleaning robots\footnote{http://www.irobot.com/us/learn/home/roomba.aspx} sports a single-button interface that simply says ``Clean''. While the robot will eventually clean your floors, you lose control over how exactly it does so, as it performs what seems like a random walk through your home.
 
@@ -142,13 +142,19 @@ This past generation of commercial home robots illustrates one extreme end of th
 
 %This style of programming makes it possible for people to specify the robot's behavior directly on the robot, without having to deal with any abstractions. In addition, Baxter performs its work in a human-safe way, immediately ceasing motion if it detects that a human has moved into its path, enabling it to work side by side with factory workers unlike previous generations of industrial robots.
 
-Roboticists are hard at work developing increasingly autonomous robot capabilities for well-specified tasks such as 2D navigation (getting from point A to point B within a building), arm motion planning (moving the gripper to a specified position and orientation while avoiding obstacles), and recognizing and picking up discrete objects on a flat surface. Autonomy is key for enabling robots to automatically perform longer and more complex tasks on their own, but it also reduces expressivity by limiting the ways in which those tasks can be performed to those that are programmed in to the automation.
+Roboticists are hard at work developing increasingly autonomous robot capabilities for well-specified tasks such as 2D navigation (getting from point A to point B within a building), arm motion planning (moving the gripper to a specified position and orientation while avoiding obstacles)\footnote{MoveIt!, http://moveit.ros.org}, and recognizing and picking up discrete objects on a flat surface. Autonomy is key for enabling robots to automatically perform longer and more complex tasks on their own.
 
 Our approach to designing end-user-programmable interfaces is to craft these autonomous components into a good set of {\em primitives} in an end user programming language, such that a non-expert would not have to ``look inside the box'' to understand how each one works. Roboticists can then implement these primitives using advanced techniques to solve the difficult problems encountered during robot programming. For example, a good autonomous navigation component could incorporate a set of recovery behaviors to try on navigation failure, such as turning around, waiting for people/obstacles to clear out of its path, and backing up and retrying. It could also bake in some concurrent strategies, such as turning the head to look in the direction the robot is going. 
 
 %Encapsulating all this functionality into a single component with a well-defined interface makes it easier for end user robot programmers by giving them more reliable, easier to understand components they can assemble into programs.
 
-We have made use of these autonomous functions to develop a system at Willow Garage called Continuous Ops that enables casual users to control our PR-2 robots through a web interface (Figure~\ref{contops}). This web interface, accessible from standard laptops or tablets, provides the ability to tell a PR-2 robot to unplug itself from the power supply, navigate autonomously to anywhere in the buliding, position itself in front of a table, automatically identify graspable objects on that table, and pick up an object.
+\begin{figure*}[tbh]
+\center\scalebox{0.40}{\includegraphics{contops.png}}
+\caption{Continuous Ops interface for picking up objects on a table}
+\label{contops}
+\end{figure*}
+
+We have made use of these autonomous functions to develop a system at Willow Garage called Continuous Ops (short for ``Continuous Operations'') that enables casual users to control our PR-2 robots through a web interface (Figure~\ref{contops}). This web interface, accessible from standard laptops or tablets, provides the ability to tell a PR-2 robot to unplug itself from the power supply, navigate autonomously to anywhere in the buliding, position itself in front of a table, automatically identify graspable objects on that table, and pick up an object.
 
 This interface lies somewhere between teleoperation and programming. It does not require an operator to exert direct control over the robot, but the commands that are given are executed immediately by the robot rather than scheduled to occur later in time. We are also exploring interfaces for sequencing these primitives into scheduled programs, in order to validate that the set of primitives we are developing is complete enough to perform useful tasks.
 
