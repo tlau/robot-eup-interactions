@@ -1,1 +1,6 @@
 .*.swp
+*.bbl
+*.blg
+*.aux
+*.pdf
+*.log
