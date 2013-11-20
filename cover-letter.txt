@@ -1,0 +1,14 @@
+Dear all,
+
+Robotics is a topic everyone is talking about, and with good reason: robots are exciting, captivating, and poised to become a reality in our daily lives. Yet despite some commercial successes such as the Roomba, we still are still a long way off from having personal robot butlers in our homes.  
+
+As an HCI researcher by background, I came to the area of robotics eager to learn more about this dynamic field and to build systems that bring robotics out into everyday lives. As a computer scientist, I knew that programming robots would be hard. But what CS practitioners who work primarily in software may not realize is that many of those challenges are intrinsically hard, and have to do with the difference between working in the physical world versus in the abstract world of software.
+
+These instrinsic challenges will be faced by end users of robotic technology who want to bring a robot into their home and make it do something useful. In this article, I make the case that robot use equals robot programming, and detail some of the tough challenges for doing end user programming of robots in the real world.
+
+I hope this article will be of interest to a broad CACM audience. I believe robotics are a topic on many members' minds, and I hope to enlighten and inspire the CACM readership by sharing what I have learned as I have investigated what it will take to make personal robots a reality.  
+
+I hope to hear back from you soon.
+
+Sincerely,
+Tessa Lau, PhD

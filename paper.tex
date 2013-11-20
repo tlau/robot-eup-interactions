@@ -5,9 +5,9 @@
 
 \title {Why robot programming is hard}
 \author {Tessa Lau \\
-Willow Garage \\
-Menlo Park, CA USA \\
-{\tt tlau@willowgarage.com}
+Affiliation TBD \\
+Buenos Aires, Argentina \\
+{\tt tlau@tlau.org}
 }
 \maketitle
 
@@ -30,15 +30,17 @@ All these innovations have become possible through multiple advances: in sensor 
 
 Yet the holy grail of personal robotics remains elusive. When will we have our own Rosie the Robot to take over housekeeping chores? When will disabled adults have robot helpers to assist them in activities of daily living? All of these advances in robotics still fall short of the goal of creating personal robots that can do whatever we want them to do.
 
-What I have found is that the problem is not that robots {\em cannot} do what we want them to do. The problem is that it is too difficult to {\em tell} robots what we want them to do. Robot control can be roughly categorized into three distinct phases: direct demonstration, tele-operation (or teleop for short), and higher-level programming.
+What I have found is that the problem is not that robots {\em cannot} do what we want them to do. The problem is that it is too difficult to {\em tell} robots what we want them to do. Even basic robot use entails some form of programming, because autonomous algorithms are not yet reliable and robust enough to complete useful tasks. Except in a few narrow domains where automation has become robust and practical, the mere act of telling a robot what to do involves a complex set of skills.
 
-In demonstrational interfaces, a human operator moves a robot through a series of positions to demonstrate the motion it should perform. The robot then continues to perform this motion unattended. This style of programming is common for industrial robots, which can be programmed to move items around on conveyor belts or do precise assembly tasks. Demonstrational interfaces are typically limited to repeating only what was previously demonstrated, in the worst case performing the exact same motion down to the millimeter regardless of whether the part is in the same place as it was last time.
+Robot control can be roughly categorized into three distinct phases: direct demonstration, tele-operation (or teleop for short), and end user programming.
+
+In demonstrational interfaces, a human operator moves a robot through a series of positions to demonstrate the motion it should perform. The robot then continues to perform this motion unattended. This style of programming is common for industrial robots, which can be programmed to move items around on conveyor belts or do precise assembly tasks. Demonstrational interfaces are typically limited to repeating only what was previously demonstrated, performing the exact same motion down to the millimeter. While this is useful in controlled environments such as factories, typical home environments are much more fluid and changing. Simply repeating a previous motion a second time may not produce the desired effect.
 
 Teleop consists of synchronously controlling a robot using software and hardware interfaces from a computer which may or may not be co-located with the robot. For example, a PS3 joystick controller could be used to drive a robot around a building, and activate certain pre-programmed motions such as turning its head or extending its arms. Remote teleop consists of controlling the robot over a distance, perhaps over the internet, using GUIs that allow the human operator to move various parts of the robot.
 
-Both demonstration and teleop suffer the limitation that a human operator must be immediately in the loop while the robot is operating. To make robots useful in the home, they will need to function {\em autonomously}, which leads to the notion of robot programming: giving high-level directives to robots so that they can function on their own without direct human guidance.  A full programming solution will likely involve a blend of different techniques including demonstration, teleop, and autonomous subroutines. For example, a task of setting the dinner table may include a high-level program of fetching silverware from the kitchen and placing it on the dining table, a demonstration of how to open this particular silverware drawer, and teleoperation when something goes awry (such as the silverware drawer being empty).
+Teleop suffers from the limitation that a human operator must be immediately in the loop while the robot is operating. To make robots useful in the home, they will need to function {\em autonomously}, which leads to the notion of end user programming: giving high-level directives to robots so that they can function on their own without direct human guidance.  A full programming solution will likely involve a blend of different techniques including demonstration, teleop, and autonomous subroutines. For example, a task of setting the dinner table may include a high-level program of fetching silverware from the kitchen and placing it on the dining table, a demonstration of how to open this particular silverware drawer, and teleoperation when something goes awry (such as the silverware drawer being empty).
 
-For personal robotics to truly succeed, robot programming will need to be simple enough that non-experts can do it.
+For personal robotics to truly succeed, regular people will need to use robot programming interfaces to tell robots what to do. These interfaces for robot programming will need to be simple enough for ordinary consumers to be able to pick up and use. In this article I detail some of the challenges that make robot control such an inherently difficult problem.
 
 \section{Case study: Robots for Humanity}
 
@@ -69,12 +71,15 @@ ROS provides a distributed publish/subscribe messaging platform for a collection
 Before ROS, roboticists had to create the software to control their robots from scratch, each doing the same work to create device drivers and rebuild libraries for their specific robot's hardware.  Now, ROS has been ported to around 100 different models of robots worldwide\footnote{http://www.ros.org/wiki/Robots}, enabling roboticists to quickly bring a new robot model online.
 
 \begin{figure*}[tbh]
-\center\scalebox{0.20}{\includegraphics{rviz.png}}
-\caption{RViz interface for robot visualization}
+\center\scalebox{0.13}{
+	\includegraphics{rviz1.png}
+	\includegraphics{rviz2.png}
+}
+\caption{RViz interfaces for robot visualization}
 \label{rviz}
 \end{figure*}
 
-However, ROS provides a fairly low-level interface to robot control. Designed for roboticists, the RViz interface (Figure~\ref{rviz}) displays all the sensor feeds coming from the robot and lets one send low-level motion commands to the robot such as rolling forward or rotating the shoulder joint. In the figure, a robot is shown examining objects on a table in front of it. The green pattern represents the data from a depth sensor mounted on the robot's head, whereas the purple line represents the walls detected by a laser rangefinder mounted on the robot's base. The tricolored axes display the various coordinate frames in use, and the gray floor displays the map the robot uses for navigation. (TODO: display costmaps, TF axes)
+However, ROS provides a fairly low-level interface to robot control. Designed for roboticists, the RViz interface (Figure~\ref{rviz}) displays all the sensor feeds coming from the robot and lets one send low-level motion commands to the robot such as rolling forward or rotating its shoulder joint. The figure shows two different perspectives on the same robot examining objects on a table in front of it. The left figure shows a third-person view of the robot and the table, rendered on top of a two-dimensional map of its environment (the gray pattern in the background). The green overlays on top of the tabletop objects indicate that they are recognized by the system as objects that can be picked up. The yellow grid pattern indicates horizontal surfaces that are detected, such as the floor.  The right figure shows the view as soon from the robot's head-mounted camera. The red/green/blue arrows are control markers that can be used to rotate and move the robot's gripper in all directions.
 
 This interface, while well suited for roboticists who need to examine the low-level sensor data and messages being processed by the robot, is not very user-friendly. It also illustrates some of the difficulties inherent in robot programming.
 
@@ -100,15 +105,17 @@ A different aspect of high-dimensionality comes from the design of robot arms. A
 
 Interfaces for robot arm teleoperation typically involve setting the position or angle of each joint in the arm individually. For example, a tablet-style interface might have fourteen buttons, one pair used to increase or decrease the angle of each joint in the arm. That additional degree of freedom makes it easier to identify a valid arm configuration for executing a grasp, since only one of many valid configurations must be found, not the unique one.  However controlling each individual joint position by clicking on buttons is tedious. Additionally, since the allowable joint positions are not completely independent, finding a correct solution is often done through trial and error.
 
+Toolkits for doing automatic motion planning are maturing, which will simplify the problem of robot arm control from how the arm should move in fine-grained detail to specifying only the high-level target position and orientation. Yet the challenge of specifying that 6-DOF target position and orientation still remains, and this will continue to be a challenge for easy-to-use robot interfaces that work with existing 2D displays and input devices.
+
+
 %There is a tradeoff between exposing these joint limitations to the programmer, which allows precise yet complex control, versus insulating a programmer from those considerations, which may lead to unpredictable behavior that is difficult to debug.
 
-Yet positioning an arm through direct manipulation or teleop is relatively easy compared to doing it programmatically. In order to program an arm, one must first specify {\em where} it should go.  Expert roboticists represent the world in terms of {\em reference frames} (coordinate systems that are defined relative to a fixed position). For example, one reference frame could be relative to the building, with the front door being at coordinate (0, 0).  Other reference frames are defined relative to stationary parts of the robot, such as its base (if it is on wheels), the head-mounted camera, or the right elbow joint.
-
-Sending an arm to a specific position is useful for robot tasks such as, for example, looking at what it is holding by moving its hand to half a meter in front of its face. This half-meter is most reliably specified in the reference frame relative to the robot's head. Given this goal position, the programmer must find a series of arm configurations that moves the arm to the desired place, while avoiding contact with obstacles in the environment.
+% Yet positioning an arm through direct manipulation or teleop is relatively easy compared to doing it programmatically. In order to program an arm, one must first specify {\em where} it should go.  Expert roboticists represent the world in terms of {\em reference frames} (coordinate systems that are defined relative to a fixed position). For example, one reference frame could be relative to the building, with the front door being at coordinate (0, 0).  Other reference frames are defined relative to stationary parts of the robot, such as its base (if it is on wheels), the head-mounted camera, or the right elbow joint.
+% 
+% Sending an arm to a specific position is useful for robot tasks such as, for example, looking at what it is holding by moving its hand to half a meter in front of its face. This half-meter is most reliably specified in the reference frame relative to the robot's head. Given this goal position, the programmer must find a series of arm configurations that moves the arm to the desired place, while avoiding contact with obstacles in the environment.
 
 % such as the base or the head-mounted camera) and use matrix algebra to convert between different frames of reference. Robot joint positions are typically specified relative to their own reference frame; for example, a robot's wrist, which is located at the end of its arm, can be commanded to rotate around the axis that is aligned with the robot's forearm (similar to the motion we use to screw in a light bulb). Calculating the absolute position of a robot's hand (for example, to determine whether it is near the door handle) requires a series of complex matrix calculations starting from the position of its base, through its shoulder, and all the joints, down to the hand. The opposite problem, calculating the joint positions required to get the hand to a particular position, is called {\em inverse kinematics} and is typically solved using either analytical equations or heuristic approximation methods.
 
-Toolkits for doing automatic motion planning are maturing, which will simplify the problem of robot arm control from how the arm should move in fine-grained detail to specifying only the high-level target position and orientation. Yet the challenge of specifying that 6-DOF target position and orientation still remains, and this will continue to be a challenge for easy-to-use robot interfaces that work with existing 2D displays and input devices.
 
 \section{Uncertainty}
 
@@ -145,7 +152,7 @@ Even if individual robot parts can be programmed to act in parallel, there will 
 
 Robot programming environments are beginning to address all of these challenges and produce useful systems that can be controlled by untrained users. The key tradeoff is simplicity versus expressiveness: in order to make systems that are more tractable for novices, they need to simplify key aspects of the robot's behavior, thereby sacrificing its ability to perform a full range of behavior.
 
-This past generation of commercial home robots illustrates one extreme end of the simplicity versus expressiveness tradeoff. iRobot's successful Roomba line of vacuum-cleaning robots\footnote{http://www.irobot.com/us/learn/home/roomba.aspx} sports a single-button interface that simply says ``Clean''. While the robot will eventually clean your floors, you lose control over how exactly it does so, as it performs what seems like a random walk through your home.
+The current generation of commercial home robots illustrates one extreme end of the simplicity versus expressiveness tradeoff. iRobot's successful Roomba line of vacuum-cleaning robots\footnote{http://www.irobot.com/us/learn/home/roomba.aspx} sports a single-button interface that simply says ``Clean''. While the robot will eventually clean your floors, you lose control over how exactly it does so, as it performs what seems like a random walk through your home.
 
 %The next generation of commercial robots in this space will likely look like Rethink Robots' Baxter system\footnote{http://www.rethinkrobotics.com/index.php/products/baxter/}.  Baxter is a two-armed manipulator than can be programmed by demonstration to automate factory work simply by guiding its arms to the appropriate position and tapping icons on the robot's ``face''.  Unlike past demonstration-based robots which mindlessly repeated the same motions, Baxter has an intelligent motion planner which can immediately cease moving the arms if it detects something in the way, such as a human walking into its workspace.
 
@@ -171,7 +178,10 @@ Another key component of our approach, which we call {\em shared autonomy}, is t
 
 Over time, as we refine existing autonomous primitives and build new domain-specific primitives, my hope is that we will expand the repertoire of robust end-user-programmable robot behavior. And perhaps that goal of having our own Rosie the Robot in our homes will soon become a reality.
 
-
+% Acknowledgements
+% Andreas Paepke
+% Kaijen Hsiao
+% Matei Ciocarlie
 
 
 
@@ -239,3 +249,5 @@ Over time, as we refine existing autonomous primitives and build new domain-spec
 \bibliography{general}
 
 \end{document}
+
+% vim: set lbr:
