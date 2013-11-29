@@ -22,35 +22,49 @@ Buenos Aires, Argentina \\
 
 % Cartesian robot control is a solved problem
 
-I never thought I would be a roboticist. In grad school, our robotics team spent months teaching little robot dogs to play soccer and solving other seemingly simple problems. Far better to work in the world of software, I figured, where the systems I built could make a real difference in people's lives. Software could automate repetitive tasks in computer use and free people from mundane work. My chosen field, end user programming, had the potential to enable millions of ordinary computer users to customize and adapt systems to their own needs.
+I never thought I would be a roboticist. In grad school, our robotics team spent months teaching little robot dogs to play soccer and solving other seemingly simple problems. Far better to work in the world of software, I figured, where the systems I built could make a real difference in people's lives. Software could automate repetitive tasks in computer use and free people from mundane work. So instead I developed expertise in human-computer interaction and intelligent user interfaces. My chosen field, end user programming, has the potential to enable millions of ordinary computer users to customize and adapt systems to their own needs.
 
 But the world is changing. Computing has moved off the desktop and into the smartphones, smart environments, and the world around us. Innovation is happening in the physical world, using computing to effect material change in our environment. The past decades have seen industrial robots increase manufacturing efficiency on the factory floor. Even more, we are now seeing robots tackle tasks from our daily lives. Robotic vacuum cleaners are changing the way we clean our homes. Robotic lawnmowers keep the yard tidy without having to lift a finger. Nest's robotic thermostat learns your habits and keeps your home at the optimal temperature. Google's driverless car could change the way we commute.
 
 All these innovations have become possible through multiple advances: in sensor technology, which robots use to perceive the world around them; in planning and navigation, which enable robots to move around in the world unaided; in human-safe motion controllers, which let robots move their limbs without endangering the people around them; in the ROS open source robot operating system, which enables roboticists to build on each others' work without starting from scratch; and many more advances in the broader field of robotics.
 
-Yet the holy grail of personal robotics remains elusive. When will we have our own Rosie the Robot to take over housekeeping chores? When will disabled adults have robot helpers to assist them in activities of daily living? All of these advances in robotics still fall short of the goal of creating personal robots that can do whatever we want them to do.
+Yet the holy grail of personal service robots remains elusive. I believe there are three main reasons. People have a wide variety of tasks for service robots to perform, ranging from folding laundry, to finding lost car keys, to picking up the kids' toys, or doing the dishes and putting them away. They also want robots to perform these tasks in a variety of environments, including cluttered homes and kitchens with different affordances such as modern drawer pulls or faucet handles. Most importantly, these service robots must be easy to use by non-technical people.
 
-What I have found is that the problem is not that robots {\em cannot} do what we want them to do. The problem is that it is too difficult to {\em tell} robots what we want them to do. Even basic robot use entails some form of programming, because autonomous algorithms are not yet reliable and robust enough to complete useful tasks. Except in a few narrow domains where automation has become robust and practical, the mere act of telling a robot what to do involves a complex set of skills.
-
-Robot control can be roughly categorized into three distinct phases: direct demonstration, tele-operation (or teleop for short), and end user programming.
-
-In demonstrational interfaces, a human operator moves a robot through a series of positions to demonstrate the motion it should perform. The robot then continues to perform this motion unattended. This style of programming is common for industrial robots, which can be programmed to move items around on conveyor belts or do precise assembly tasks. Demonstrational interfaces are typically limited to repeating only what was previously demonstrated, performing the exact same motion down to the millimeter. While this is useful in controlled environments such as factories, typical home environments are much more fluid and changing. Simply repeating a previous motion a second time may not produce the desired effect.
-
-Teleop consists of synchronously controlling a robot using software and hardware interfaces from a computer which may or may not be co-located with the robot. For example, a PS3 joystick controller could be used to drive a robot around a building, and activate certain pre-programmed motions such as turning its head or extending its arms. Remote teleop consists of controlling the robot over a distance, perhaps over the internet, using GUIs that allow the human operator to move various parts of the robot.
-
-Teleop suffers from the limitation that a human operator must be immediately in the loop while the robot is operating. To make robots useful in the home, they will need to function {\em autonomously}, which leads to the notion of end user programming: giving high-level directives to robots so that they can function on their own without direct human guidance.  A full programming solution will likely involve a blend of different techniques including demonstration, teleop, and autonomous subroutines. For example, a task of setting the dinner table may include a high-level program of fetching silverware from the kitchen and placing it on the dining table, a demonstration of how to open this particular silverware drawer, and teleoperation when something goes awry (such as the silverware drawer being empty).
-
-For personal robotics to truly succeed, regular people will need to use robot programming interfaces to tell robots what to do. These interfaces for robot programming will need to be simple enough for ordinary consumers to be able to pick up and use. In this article I detail some of the challenges that make robot control such an inherently difficult problem.
+We have started to see robots enter the marketplace that address two out of those three hurdles. For example, iRobot's Roomba only does vacuuming, but it does it in a variety of environments and is dead simple to use even by non-technical folks. On the other hand, Rethink Robotics' Baxter robot can be easily programmed to perform a variety of tasks in light industrial settings, but its lack of mobility make it less suitable for the home. As another example, Willow Garage's PR-2 robot has been programmed to perform a variety of household tasks, in a variety of environments, but can only be operated by highly skilled roboticists.
 
 \section{Case study: Robots for Humanity}
 
-One important use case for personal robotics will be in-home care and assistance for disabled adults. The Robots for Humanity project~\cite{rfh}, a collaboration between Willow Garage and Georgia Tech, aims to develop technology that enables persons with motor impairments to perform personal care tasks that they otherwise might not have been able to perform without assistance, such as picking up a dropped object, fetching a towel, or even scratching an itch. Its first prototypes have enabled Henry Evans, a mute quadriplegic, to act in the world for the first time since a brainstem stroke left him paralyzed. Through physical therapy, Henry has regained the ability to make limited head motions (enough to control a cursor with his gaze) and to click a button with one finger.  Using a teleop interface custom designed for him, Henry has been able to instruct Willow Garage's PR-2 robots to open cabinets in his home, fetch food from the refrigerator, and even dole out candy to trick-or-treating kids on his behalf.
+One important use case for personal robotics will be in-home care and assistance for disabled adults. The Robots for Humanity project~\cite{rfh}, a collaboration between Willow Garage and Georgia Tech, aimed to develop technology that enables persons with motor impairments to perform personal care tasks that they otherwise might not have been able to perform without assistance, such as picking up a dropped object, fetching a towel, or even scratching an itch. Its first prototypes enabled Henry Evans, a mute quadriplegic, to act in the world for the first time since a brainstem stroke left him paralyzed. Through physical therapy, Henry has regained the ability to make limited head motions (enough to control a cursor with his gaze) and to click a button with one finger.  Using a teleop interface custom designed for him, Henry has been able to instruct Willow Garage's PR-2 robots to open cabinets in his home, fetch food from the refrigerator, and even dole out candy to trick-or-treating kids on his behalf.
 
 Yet our experience with Robots for Humanity underscores how difficult it is for ordinary mortals to instruct robots what to do. Even using state-of-the-art robot visualization software developed at Willow Garage, simple teleoperation tasks such as opening a cabinet door could be very difficult for Henry to accomplish. While Henry has only limited interaction capabilities, he is also strongly motivated because he has no alternatives. Able-bodied consumers, on the other hand, would quickly lose patience. If even basic robot control via teleoperation is so time-consuming, what hope do we have that people will ever get around to the general task of robot programming?
 
 Granted, designing teleoperation interfaces for motor-impaired users is deliberately trying to solve the hardest problem first.  Yet while Henry's case highlights the challenges of creating usable assistive robotics interfaces, it also illustrates the enormous benefit to humanity of enabling disabled adults to regain some of their independence.
 
-With this goal in mind, autonomous programmable robots are more than a consumer toy, but a technology that could changes people's lives for the better. Why, then, does robot programming for the masses remain such a difficult challenge? What makes robots so difficult to control?
+With this goal in mind, personal service robots are more than a consumer toy, but a technology that could changes people's lives for the better. Why, then, are robots still so difficult to use? What makes robots so difficult to control?
+
+\section{Robot use is programming}
+
+Wikipedia defines computer programming as follows (italicized text added for clarification):
+
+\begin{quote}
+The purpose of programming is to find a sequence of instructions that will {\it [cause the computer to]} automate performing a specific task or solve a given problem.
+\end{quote}
+
+If you replace computer with robot, we come to a definition of robot programming: finding the right series of instructions that cause the robot to automate a task or exhibit a certain behavior. Every robot makes available a certain set of functionality -- its user-visible API. These are the primitive behaviors that have been programmed into the robot and can be activated by its user. End users must select which behavior to call when, in order to make the robot do what they want. Anyone who operates a robot, including consumers who purchase one for their home, will be programming the robot according to this definition.
+
+The difficulty of this programming task depends on several factors:
+
+\begin{itemize}
+\item {\bf Direct contact with the robot/task}: programming is easier if the user can see and touch the robot and its desired task. Control from a distance makes the programming process harder. For example, robots that are sent into natural disaster zones as first responders may have to be operated from a distance, which increases the programming task's difficulty.
+
+\item {\bf Task/environment variance}: if the task to be performed is always the same, the programming task is easier than if the goal task changes significantly or if the environment in which the robot must operate is changing. The program must be generalized to handle this variance, which makes the programming process more difficult.
+
+\item {\bf Goal specification}: some tasks are easy to describe, such as navigation goals specified by a single point in 3-dimensional space. Other goals, such as washing the dishes or tidying up, are more difficult to specify. Successful completion may be more dependent on how exactly the robot performs the task. Generally speaking, the more difficult it is to frame the goal specification, the more difficult the programming task will be.
+
+\item {\bf Amount of autonomy}: robots are gaining the ability to perform some functions autonomously, such as spatial navigation and object manipulation.  The less autonomy exhibited by the robot, the easier it is to program the robot, because increased autonomy requires the programmer to develop more complex mental models of the robot's perceptions and behavior. Teleoperation interfaces are fairly easy to program because there is generally a one-to-one mapping between the user's inputs and the robot's behavior. Once a robot starts to act autonomously, understanding its behavior (and debugging it!) becomes more challenging.
+\end{itemize}
+
+For personal robotics to truly succeed, regular people will need to use robot programming interfaces to tell robots what to do. These interfaces for robot programming will need to be simple enough for ordinary consumers to be able to pick up and use. In this article I detail some of the challenges that make robot control such an inherently difficult problem.
 
 The explanation begins with a look at the state of the art in robot software today.
 
@@ -75,7 +89,7 @@ Before ROS, roboticists had to create the software to control their robots from 
 	\includegraphics{rviz1.png}
 	\includegraphics{rviz2.png}
 }
-\caption{RViz interfaces for robot visualization}
+\caption{RViz interfaces for robot visualization and control}
 \label{rviz}
 \end{figure*}
 
@@ -182,6 +196,9 @@ Over time, as we refine existing autonomous primitives and build new domain-spec
 % Andreas Paepke
 % Kaijen Hsiao
 % Matei Ciocarlie
+% Jon Binney
+% Maya Cakmak
+% anonymous reviewers
 
 
 
