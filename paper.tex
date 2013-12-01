@@ -30,22 +30,25 @@ But the world is changing. Computing has moved off the desktop and into the smar
 All these innovations have become possible through multiple advances: in sensor technology, which robots use to perceive the world around them; in planning and navigation, which enable robots to move around in the world unaided; in human-safe motion controllers, which let robots move their limbs without endangering the people around them; in the ROS open source robot operating system, which enables roboticists to build on each others' work without starting from scratch; and many more advances in the broader field of robotics.
 
 \begin{changebar}
-Yet the holy grail of personal service robots remains elusive. I believe there are three main reasons. People have a wide variety of tasks for service robots to perform, ranging from folding laundry, to finding lost car keys, to picking up the kids' toys, or doing the dishes and putting them away. They also want robots to perform these tasks in a variety of environments, including cluttered homes and kitchens with different affordances such as modern drawer pulls or faucet handles. Most importantly, these service robots must be easy to use by non-technical people.
+Yet the holy grail of personal service robots remains elusive. I believe there are three main reasons. There is a wide variety of tasks that people want service robots to perform, ranging from folding laundry, to finding lost car keys, to picking up the kids' toys, or doing the dishes and putting them away. These tasks must be performed in a variety of environments, including cluttered homes and kitchens with different affordances such as modern drawer pulls or faucet handles. Most importantly, the robots themselves must be easy to operate by non-technical people.
 
-We have started to see robots enter the marketplace that address two out of those three hurdles. For example, iRobot's Roomba only does vacuuming, but it does it in a variety of environments and is dead simple to use even by non-technical folks. On the other hand, Rethink Robotics' Baxter robot can be easily programmed to perform a variety of tasks in light industrial settings, but its lack of mobility make it less suitable for the home. As another example, Willow Garage's PR-2 robot has been programmed to perform a variety of household tasks, in a variety of environments, but can only be operated by highly skilled roboticists.
+We have started to see robots enter the marketplace that address two out of those three challenges. For example, iRobot's Roomba\footnote{XXX iRobot website} only vacuums floors, but it does so in a variety of environments and is dead simple to use even by non-technical folks. On the other hand, Rethink Robotics' Baxter robot\footnote{XXX Baxter website} can be easily programmed to perform a variety of tasks in light industrial settings, but its lack of mobility make it less suitable for the home. As another example, Willow Garage's PR-2 robot has been programmed to perform a variety of household tasks, in a variety of environments, but can only be operated by highly skilled roboticists.
 \end{changebar}
 
 \section{Case study: Robots for Humanity}
 
-One important use case for personal robotics will be in-home care and assistance for disabled adults. The Robots for Humanity project~\cite{rfh}, a collaboration between Willow Garage and Georgia Tech, aimed to develop technology that enables persons with motor impairments to perform personal care tasks that they otherwise might not have been able to perform without assistance, such as picking up a dropped object, fetching a towel, or even scratching an itch. Its first prototypes enabled Henry Evans, a mute quadriplegic, to act in the world for the first time since a brainstem stroke left him paralyzed. Through physical therapy, Henry has regained the ability to make limited head motions (enough to control a cursor with his gaze) and to click a button with one finger.  Using a teleop interface custom designed for him, Henry has been able to instruct Willow Garage's PR-2 robots to open cabinets in his home, fetch food from the refrigerator, and even dole out candy to trick-or-treating kids on his behalf.
+One important use case for personal service robots will be in-home care and assistance for disabled adults. The Robots for Humanity project~\cite{rfh}, a collaboration between Willow Garage and Georgia Tech, aimed to develop technology that enables persons with motor impairments to perform personal care tasks that they otherwise might not have been able to perform without assistance, such as picking up a dropped object, fetching a towel, or even scratching an itch. Its first prototypes enabled Henry Evans, a mute quadriplegic, to act in the world for the first time since a brainstem stroke left him paralyzed. Through physical therapy, Henry has regained the ability to make limited head motions (enough to control a cursor with his gaze) and to click a button with one finger.  Using an interface custom designed for him, Henry has been able to instruct Willow Garage's PR-2 robots to open cabinets in his home, fetch food from the refrigerator, and even dole out candy to trick-or-treating kids on his behalf.
 
-Yet our experience with Robots for Humanity underscores how difficult it is for ordinary mortals to instruct robots what to do. Even using state-of-the-art robot visualization software developed at Willow Garage, simple teleoperation tasks such as opening a cabinet door could be very difficult for Henry to accomplish. While Henry has only limited interaction capabilities, he is also strongly motivated because he has no alternatives. Able-bodied consumers, on the other hand, would quickly lose patience. If even basic robot control via teleoperation is so time-consuming, what hope do we have that people will ever get around to the general task of robot programming?
+Yet our experience with Robots for Humanity underscores how difficult it is for ordinary mortals to instruct robots what to do. Even using state-of-the-art robot visualization software developed at Willow Garage, simple teleoperation tasks such as opening a cabinet door could be very difficult for Henry to accomplish. While Henry has only limited interaction capabilities, he is also strongly motivated because he has no alternatives. 
+\begin{changebar}
+Able-bodied consumers, on the other hand, would quickly lose patience and simply fetch the towel themselves. If the state of the art in robot operation is so time-consuming, what hope do we have that ordinary mortals will be able to operate robots to perform these tasks in their own homes?
+\end{changebar}
 
 Granted, designing teleoperation interfaces for motor-impaired users is deliberately trying to solve the hardest problem first.  Yet while Henry's case highlights the challenges of creating usable assistive robotics interfaces, it also illustrates the enormous benefit to humanity of enabling disabled adults to regain some of their independence.
 
 With this goal in mind, personal service robots are more than a consumer toy, but a technology that could changes people's lives for the better.
 \begin{changebar}
-Why, then, are robots still so difficult to use? What makes robots so difficult to control?
+Why, then, are robots still so difficult to use? What makes robots so difficult to operate?
 
 \section{Robot use is programming}
 
@@ -55,12 +58,12 @@ Wikipedia defines computer programming as follows (italicized text added for cla
 The purpose of programming is to find a sequence of instructions that will {\it [cause the computer to]} automate performing a specific task or solve a given problem.
 \end{quote}
 
-If you replace computer with robot, we come to a definition of robot programming: finding the right series of instructions that cause the robot to automate a task or exhibit a certain behavior. Every robot makes available a certain set of functionality -- its user-visible API. These are the primitive behaviors that have been programmed into the robot and can be activated by its user. End users must select which behavior to call when, in order to make the robot do what they want. Anyone who operates a robot, including consumers who purchase one for their home, will be programming the robot according to this definition.
+If you replace computer with robot, we come to a definition of robot programming: finding the right series of instructions that cause a robot to automate a task or exhibit a certain behavior. Every robot makes available a certain set of functionality -- its user-visible API. These are the primitive behaviors that have been programmed into the robot and can be activated by its user. End users must select which behavior to call when, in order to make the robot do what they want. Anyone who operates a robot, including consumers who purchase one for their home, will be programming the robot according to this definition.
 
 The difficulty of this programming task depends on several factors:
 
 \begin{itemize}
-\item {\bf Direct contact with the robot/task}: programming is easier if the user can see and touch the robot and its desired task. Control from a distance makes the programming process harder. For example, robots that are sent into natural disaster zones as first responders may have to be operated from a distance, which increases the programming task's difficulty.
+\item {\bf Direct contact with the robot/task}: programming is easier if the user can see and touch the robot and its desired task. Control from a distance makes the programming process harder. For example, robots that are sent into natural disaster zones as first responders may have to be operated from a distance, which increases the programming task's difficulty because the operator's senses are limited to what can be perceived through the robot's own cameras or sensors.
 
 \item {\bf Task/environment variance}: if the task to be performed is always the same, the programming task is easier than if the goal task changes significantly or if the environment in which the robot must operate is changing. The program must be generalized to handle this variance, which makes the programming process more difficult.
 
@@ -114,9 +117,9 @@ The Rviz interface, while well suited for roboticists who need to examine the lo
 % callbacks, coroutines, threads
 
 \begin{changebar}
-Many activities of daily living require coordinated action amongst multiple limbs. Anyone who has lived with a broken arm, for example, understands the difficulty of trying to unscrew jar lids, pick up bulky objects, or chop vegetables with only a single arm. Controlling both arms simultaneously to perform coordinated actions is a matter of concurrent programming.
+Many activities of daily living require coordinated action amongst multiple limbs. Anyone who has broken an arm, for example, understands the difficulty of trying to unscrew jar lids, pick up bulky objects, or chop vegetables with only a single arm. Controlling both arms simultaneously to perform coordinated actions is a matter of concurrent programming.
 
-The problem becomes even more complex with robots that have more moving parts.
+The problem becomes even more complex with robots that have many moving parts.
 \end{changebar}
 For example, Willow Garage's PR-2 has two independently controlled 7-DOF arms, a head that can pan and tilt, a torso that can be raised and lowered, and a base that can move and turn in all directions. Robots are also equipped with a slew of sensors including cameras, depth sensors, laser rangefinders, touch sensors, and feedback about its electrical and motor systems. These sensors and actuators must be operated together in coordination to produce a desired robotic behavior.
 
@@ -143,10 +146,14 @@ Another challenge that robot programmers face is specifying how a robot should b
 
 In addition, robot hardware itself often produces unpredictable results. Unlike software, mechanical parts can slip, burn out, or break. They take time to actuate and do not come to a stop immediately. Giving a robot the same instruction multiple times may or may not result in the same outcome each time.
 
-Thus robot programs must have mechanisms in place to deal with uncertain truth and unpredictable hardware. Robot control loops usually sense the physical hardware during operation to determine whether a motion was carried out successfully. If the operator is not physically co-located with the robot, she cannot see whether the robot carried out the desired motion, so she must think through possible outcomes while writing a program and craft appropriate responses for each eventuality. For example, while instructing a robot to pick up an object, a programmer must specify what to do if the object is not {\em where} it thinks it is, is not {\em what} it thinks it is, or if the robot fails to perform the desired grasp. Should it simply try again? Move a little bit to get a better view and then try again? Ask a human?
+Thus robot programs must have mechanisms in place to deal with uncertain truth and unpredictable hardware. Robot control loops usually sense the physical hardware during operation to determine whether a motion was carried out successfully.
+\begin{changebar}
+If an operator is not physically co-located or co-temporaneous with the robot,
+\end{changebar}
+she cannot see whether the robot carried out the desired motion, so she must think through possible outcomes while writing a program and craft appropriate responses for each eventuality. For example, while instructing a robot to pick up an object, a programmer must specify what to do if the object is not {\em where} it thinks it is, is not {\em what} it thinks it is, or if the robot fails to perform the desired grasp. Should it simply try again? Move a little bit to get a better view and then try again? Ask a human?
 
 \begin{changebar}
-In order to deal with these various types of uncertainty, professional programmers learn to use probabilistic models and craft fault-tolerant code with frequent error checking, which seem like an heavy burden for casual programmers who just want a robot to do something useful in the home.
+In order to deal with these various types of uncertainty, professional programmers learn to use probabilistic models and craft fault-tolerant code with frequent error checking, which seems like too much to ask of casual programmers who just want a robot to do something useful in the home.
 \end{changebar}
 
 %Most end user programming systems to date simply ignore the problem of uncertainty. For robot programming to be successful, we will need to develop easily-understandable paradigms for handling uncertainty.
@@ -195,9 +202,9 @@ Typical input devices such as mice and touchscreens are also only good for inter
 % such as the base or the head-mounted camera) and use matrix algebra to convert between different frames of reference. Robot joint positions are typically specified relative to their own reference frame; for example, a robot's wrist, which is located at the end of its arm, can be commanded to rotate around the axis that is aligned with the robot's forearm (similar to the motion we use to screw in a light bulb). Calculating the absolute position of a robot's hand (for example, to determine whether it is near the door handle) requires a series of complex matrix calculations starting from the position of its base, through its shoulder, and all the joints, down to the hand. The opposite problem, calculating the joint positions required to get the hand to a particular position, is called {\em inverse kinematics} and is typically solved using either analytical equations or heuristic approximation methods.
 
 
-\section{The way forward}
-
 \begin{changebar}
+\section{End user programming for robots}
+
 The field of end user programming~\cite{lieberman-yourwish,dontcheva-nocode} has developed a variety of solutions to enable users of software systems to create or modify software artifacts without having to learn the intricacies of programming.  
 
 The key insight for these EUP systems is to reduce the complexity of a programming task through simplification. The three primary methods include (a) visual programming: simplifying or eliminating tricky syntax through graphical representations; (b) domain-specific languages: limiting concepts to only those necessary in a particular domain of use, such as spreadsheet formulas; and (c) programming by demonstration or example: letting users focus on concrete examples rather than difficult abstractions.
