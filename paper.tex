@@ -12,17 +12,6 @@ Buenos Aires, Argentina \\
 }
 \maketitle
 
-% Feedback from Matei:
-
-% Make assumptions more explicit in intro
-% Robot use == robot programming
-% Differentiate end user programming from roboticist programming
-% Teach/instruct/tell == programming
-
-% Non-quantitative Henry statistics
-
-% Cartesian robot control is a solved problem
-
 I never thought I would be a roboticist. In grad school, our robotics team spent months teaching little robot dogs to play soccer and solving other seemingly simple problems. Far better to work in the world of software, I figured, where the systems I built could make a real difference in people's lives. Software could automate repetitive tasks in computer use and free people from mundane work. So instead I developed expertise in human-computer interaction and intelligent user interfaces. My chosen field, end user programming, has the potential to enable millions of ordinary computer users to customize and adapt systems to their own needs.
 
 But the world is changing. Computing has moved off the desktop and into the smartphones, smart environments, and the world around us. Innovation is happening in the physical world, using computing to effect material change in our environment. The past decades have seen industrial robots increase manufacturing efficiency on the factory floor. Even more, we are now seeing robots tackle tasks from our daily lives. Robotic vacuum cleaners are changing the way we clean our homes. Robotic lawnmowers keep the yard tidy without having to lift a finger. Nest's robotic thermostat learns your habits and keeps your home at the optimal temperature. Google's driverless car could change the way we commute.
@@ -223,7 +212,7 @@ However, this simplicity typically comes at the price of expressiveness. By redu
 \begin{changebar}
 \subsection{Higher-level primitives}
 
-One way to trade off expressiveness for simplicity is to abstract away details of robot behavior into higher-level primitives. This abstraction can be difficult for roboticists to accept, who have become accustomed to having fine-grained control over robot behavior and error handling. Yet abstracting away these details is going to be critical for end users to be able to develop a working understanding of the robot's functionality.
+One way to trade off expressiveness for simplicity is to abstract away details of robot behavior into higher-level primitives. This abstraction can be difficult for roboticists to accept, who have become accustomed to having fine-grained control over robot behavior and error handling. Yet abstracting away these details is going to be critical for end users to be able to develop a working understanding of a robot's functionality.
 
 %Our approach to designing end-user-programmable interfaces is to craft these autonomous components into a good set of {\em primitives} in an end user programming language, such that a non-expert would not have to ``look inside the box'' to understand how each one works.
 
@@ -248,7 +237,9 @@ In response, we developed a web interface, accessible from standard laptops or t
 \begin{changebar}
 The interface enabled non-technical users to activate several core autonomous functions of the PR-2 through an easy-to-use interface.
 
-The drawback of this interface was that the user lost fine-grained control over exactly how the robot performed these tasks. For example, the interface only supported using the robot's right arm to pick up an object; the left arm was unused. It did not allow the user to specify exactly how to pick up an object (e.g. from above or from the side), even though these parameters can be customized at a lower level of control. The challenge in designing a simpler interface is to carefully craft exactly which functionality to expose, and which functionality can be safely hidden from casual users.
+The drawback of this interface was that the user lost fine-grained control over exactly how the robot performed these tasks. For example, the interface only supported using the robot's right arm to pick up an object; the left arm was unused. It did not allow the user to specify exactly how to pick up an object (e.g. from above or from the side), even though these parameters can be customized at a lower level of control. 
+
+The challenge in designing a simpler interface is to carefully craft exactly which functionality to expose, and which functionality can be safely hidden from casual users.  For the intended users of the Continuous Ops interface, the provided functionality was sufficient and satisfied the requirements of being easy to use and always available. In fact, we heard of several cases where people used the interface remotely (e.g. while away at a conference) to show off the functionality of the robots in the lab.
 
 \subsection{Shared autonomy}
 
@@ -260,15 +251,19 @@ With a human expert on call to get a robot out of situations it was not programm
 As a stepping-stone towards full autonomy, this approach also enables the testing of end user programmable systems without needing a fully reliable set of autonomous primitives in place to support them.
 
 \begin{changebar}
+This approach worked well during a multi-day deployment of a delivery system at Willow Garage. Users could request delivery of chocolates or snacks to their office, and the system would autonomously retrieve those items and deliver them to their office door. In the rare cases that the autonomous behaviors failed, several roboticists were notified by email and played the role of teleoperators. They initiated recovery behaviors to get the robots back on track. From the end users' perspective, the robot performed its tasks fully autonomously, sparing them from having to worry about specifying recovery behaviors.
+\end{changebar}
+
+\begin{changebar}
 \subsection{New 3D input devices}
 
-Finally, video gaming technology is driving a new crop of input and output devices that make it easier to interact with and perceive the 3D world around us. These devices will make it easier for robots to perceive the world in three dimensions, and for people to instruct those robots using more natural gestures. Input devices such as the Razer Hydra, Leap Motion Controller, and Microsoft Kinect can sense motion in 3D, enabling computers to sense motion and objects in the world. 3D output devices such as the Oculus Rift project stereo images in 3D so that people can perceive what robots are seeing in three dimensions.
+Finally, video gaming technology is driving a new crop of input and output devices that make it easier to interact with and perceive the 3D world around us. These devices will make it easier for robots to perceive the world in three dimensions, and for people to instruct those robots using more natural gestures. Input devices such as the Razer Hydra, Leap Motion Controller, and Microsoft Kinect can sense motion in 3D, enabling robots to better sense motion and objects in the world. 3D output devices such as the Oculus Rift project stereo images in 3D so that people can perceive what robots are seeing in three dimensions.
 
-These new devices could enable a new generation of robot control interfaces that make interacting with robots more natural and intuitive.
+These new devices could enable a new generation of robot control interfaces that make interacting with robots more natural and intuitive. For example, David Gossow at Willow Garage developed a research prototype called the PR-2 Surrogate which provided a fully-immersive teleoperation interface for the PR-2 robot. It used a Razer Hydra control to track your hand positions, which were then mapped directly to the robot's hand positions. It also displayed a stereo camera feed from the robot's head-mounted cameras into an Oculus Rift device, giving you a stereo view of what the robot was seeing. The Rift's head tracking capability was mapped to moving the robot's head, enabling you to look around the robot's environment just by turning your head. This demo showed that these new input/output technologies hold much promise for making it easier to interact with, control, and program complex robots.
 
 \section{Conclusion}
 
-Personal service robots have an enormous potential to do good for humanity by enabling people to live more independently. However, controlling these robots boils down to a small matter of programming. In this article I have explained why programming robots is inherently difficult, even for skilled programmers.  Drawing lessons from the field of end user programming, we have proposed several paths forward that may enable the creation of more accessible interfaces for personal robots in the future.
+Personal service robots have an enormous potential to do good for humanity by enabling people to live more independent lives and free them from mundane housekeeping chores. However, controlling these robots boils down to a small matter of programming. In this article I have explained why programming robots is inherently difficult, even for skilled programmers.  Drawing lessons from the field of end user programming, I have proposed several paths forward that may enable the creation of more accessible interfaces for personal robots in the future.
 \end{changebar}
 
 %Over time, as we refine existing autonomous primitives and build new domain-specific primitives, my hope is that we will expand the repertoire of robust end-user-programmable robot behavior. And perhaps that goal of having our own Rosie the Robot in our homes will soon become a reality.
