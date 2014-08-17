@@ -1,54 +1,68 @@
 \documentclass[10pt,twocolumn]{article}
 \usepackage{graphicx}
+\usepackage{changebar}
 
 \begin{document}
 
 \title {Why robot programming is hard}
 \author {Tessa Lau \\
-Willow Garage \\
-Menlo Park, CA USA \\
-{\tt tlau@willowgarage.com}
+Savioke Inc.\\
+Buenos Aires, Argentina \\
+{\tt tlau@tlau.org}
 }
 \maketitle
 
-% Feedback from Matei:
-
-% Make assumptions more explicit in intro
-% Robot use == robot programming
-% Differentiate end user programming from roboticist programming
-% Teach/instruct/tell == programming
-
-% Non-quantitative Henry statistics
-
-% Cartesian robot control is a solved problem
-
-I never thought I would be a roboticist. In grad school, our robotics team spent months teaching little robot dogs to play soccer and solving other seemingly simple problems. Far better to work in the world of software, I figured, where the systems I built could make a real difference in people's lives. Software could automate repetitive tasks in computer use and free people from mundane work. My chosen field, end user programming, had the potential to enable millions of ordinary computer users to customize and adapt systems to their own needs.
+I never thought I would be a roboticist. In grad school, our robotics team spent months teaching little robot dogs to play soccer and solving other seemingly simple problems. Far better to work in the world of software, I figured, where the systems I built could make a real difference in people's lives. Software could automate repetitive tasks in computer use and free people from mundane work. So instead I developed expertise in human-computer interaction and intelligent user interfaces. My chosen field, end user programming, has the potential to enable millions of ordinary computer users to customize and adapt systems to their own needs.
 
 But the world is changing. Computing has moved off the desktop and into the smartphones, smart environments, and the world around us. Innovation is happening in the physical world, using computing to effect material change in our environment. The past decades have seen industrial robots increase manufacturing efficiency on the factory floor. Even more, we are now seeing robots tackle tasks from our daily lives. Robotic vacuum cleaners are changing the way we clean our homes. Robotic lawnmowers keep the yard tidy without having to lift a finger. Nest's robotic thermostat learns your habits and keeps your home at the optimal temperature. Google's driverless car could change the way we commute.
 
 All these innovations have become possible through multiple advances: in sensor technology, which robots use to perceive the world around them; in planning and navigation, which enable robots to move around in the world unaided; in human-safe motion controllers, which let robots move their limbs without endangering the people around them; in the ROS open source robot operating system, which enables roboticists to build on each others' work without starting from scratch; and many more advances in the broader field of robotics.
 
-Yet the holy grail of personal robotics remains elusive. When will we have our own Rosie the Robot to take over housekeeping chores? When will disabled adults have robot helpers to assist them in activities of daily living? All of these advances in robotics still fall short of the goal of creating personal robots that can do whatever we want them to do.
+\begin{changebar}
+Yet the holy grail of personal service robots remains elusive. I believe there are three main reasons. There is a wide variety of tasks that people want service robots to perform, ranging from folding laundry, to finding lost car keys, to picking up the kids' toys, or doing the dishes and putting them away. These tasks must be performed in a variety of environments, including cluttered homes and kitchens with different affordances such as modern drawer pulls or faucet handles. Most importantly, the robots themselves must be easy to operate by non-technical people.
 
-What I have found is that the problem is not that robots {\em cannot} do what we want them to do. The problem is that it is too difficult to {\em tell} robots what we want them to do. Robot control can be roughly categorized into three distinct phases: direct demonstration, tele-operation (or teleop for short), and higher-level programming.
-
-In demonstrational interfaces, a human operator moves a robot through a series of positions to demonstrate the motion it should perform. The robot then continues to perform this motion unattended. This style of programming is common for industrial robots, which can be programmed to move items around on conveyor belts or do precise assembly tasks. Demonstrational interfaces are typically limited to repeating only what was previously demonstrated, in the worst case performing the exact same motion down to the millimeter regardless of whether the part is in the same place as it was last time.
-
-Teleop consists of synchronously controlling a robot using software and hardware interfaces from a computer which may or may not be co-located with the robot. For example, a PS3 joystick controller could be used to drive a robot around a building, and activate certain pre-programmed motions such as turning its head or extending its arms. Remote teleop consists of controlling the robot over a distance, perhaps over the internet, using GUIs that allow the human operator to move various parts of the robot.
-
-Both demonstration and teleop suffer the limitation that a human operator must be immediately in the loop while the robot is operating. To make robots useful in the home, they will need to function {\em autonomously}, which leads to the notion of robot programming: giving high-level directives to robots so that they can function on their own without direct human guidance.  A full programming solution will likely involve a blend of different techniques including demonstration, teleop, and autonomous subroutines. For example, a task of setting the dinner table may include a high-level program of fetching silverware from the kitchen and placing it on the dining table, a demonstration of how to open this particular silverware drawer, and teleoperation when something goes awry (such as the silverware drawer being empty).
-
-For personal robotics to truly succeed, robot programming will need to be simple enough that non-experts can do it.
+We have started to see robots enter the marketplace that address two out of those three challenges. For example, iRobot's Roomba\footnote{XXX iRobot website} only vacuums floors, but it does so in a variety of environments and is dead simple to use even by non-technical folks. On the other hand, Rethink Robotics' Baxter robot\footnote{XXX Baxter website} can be easily programmed to perform a variety of tasks in light industrial settings, but its lack of mobility make it less suitable for the home. As another example, Willow Garage's PR-2 robot has been programmed to perform a variety of household tasks, in a variety of environments, but can only be operated by highly skilled roboticists.
+\end{changebar}
 
 \section{Case study: Robots for Humanity}
 
-One important use case for personal robotics will be in-home care and assistance for disabled adults. The Robots for Humanity project~\cite{rfh}, a collaboration between Willow Garage and Georgia Tech, aims to develop technology that enables persons with motor impairments to perform personal care tasks that they otherwise might not have been able to perform without assistance, such as picking up a dropped object, fetching a towel, or even scratching an itch. Its first prototypes have enabled Henry Evans, a mute quadriplegic, to act in the world for the first time since a brainstem stroke left him paralyzed. Through physical therapy, Henry has regained the ability to make limited head motions (enough to control a cursor with his gaze) and to click a button with one finger.  Using a teleop interface custom designed for him, Henry has been able to instruct Willow Garage's PR-2 robots to open cabinets in his home, fetch food from the refrigerator, and even dole out candy to trick-or-treating kids on his behalf.
+One important use case for personal service robots will be in-home care and assistance for disabled adults. The Robots for Humanity project~\cite{rfh}, a collaboration between Willow Garage and Georgia Tech, aimed to develop technology that enables persons with motor impairments to perform personal care tasks that they otherwise might not have been able to perform without assistance, such as picking up a dropped object, fetching a towel, or even scratching an itch. Its first prototypes enabled Henry Evans, a mute quadriplegic, to act in the world for the first time since a brainstem stroke left him paralyzed. Through physical therapy, Henry has regained the ability to make limited head motions (enough to control a cursor with his gaze) and to click a button with one finger.  Using an interface custom designed for him, Henry has been able to instruct Willow Garage's PR-2 robots to open cabinets in his home, fetch food from the refrigerator, and even dole out candy to trick-or-treating kids on his behalf.
 
-Yet our experience with Robots for Humanity underscores how difficult it is for ordinary mortals to instruct robots what to do. Even using state-of-the-art robot visualization software developed at Willow Garage, simple teleoperation tasks such as opening a cabinet door could be very difficult for Henry to accomplish. While Henry has only limited interaction capabilities, he is also strongly motivated because he has no alternatives. Able-bodied consumers, on the other hand, would quickly lose patience. If even basic robot control via teleoperation is so time-consuming, what hope do we have that people will ever get around to the general task of robot programming?
+Yet our experience with Robots for Humanity underscores how difficult it is for ordinary mortals to instruct robots what to do. Even using state-of-the-art robot visualization software developed at Willow Garage, simple teleoperation tasks such as opening a cabinet door could be very difficult for Henry to accomplish. While Henry has only limited interaction capabilities, he is also strongly motivated because he has no alternatives. 
+\begin{changebar}
+Able-bodied consumers, on the other hand, would quickly lose patience and simply fetch the towel themselves. If the state of the art in robot operation is so time-consuming, what hope do we have that ordinary mortals will be able to operate robots to perform these tasks in their own homes?
+\end{changebar}
 
 Granted, designing teleoperation interfaces for motor-impaired users is deliberately trying to solve the hardest problem first.  Yet while Henry's case highlights the challenges of creating usable assistive robotics interfaces, it also illustrates the enormous benefit to humanity of enabling disabled adults to regain some of their independence.
 
-With this goal in mind, autonomous programmable robots are more than a consumer toy, but a technology that could changes people's lives for the better. Why, then, does robot programming for the masses remain such a difficult challenge? What makes robots so difficult to control?
+With this goal in mind, personal service robots are more than a consumer toy, but a technology that could changes people's lives for the better.
+\begin{changebar}
+Why, then, are robots still so difficult to use? What makes robots so difficult to operate?
+
+\section{Robot use is programming}
+
+Wikipedia defines computer programming as follows (italicized text added for clarification):
+
+\begin{quote}
+The purpose of programming is to find a sequence of instructions that will {\it [cause the computer to]} automate performing a specific task or solve a given problem.
+\end{quote}
+
+If you replace computer with robot, we come to a definition of robot programming: finding the right series of instructions that cause a robot to automate a task or exhibit a certain behavior. Every robot makes available a certain set of functionality -- its user-visible API. These are the primitive behaviors that have been programmed into the robot and can be activated by its user. End users must select which behavior to call when, in order to make the robot do what they want. Anyone who operates a robot, including consumers who purchase one for their home, will be programming the robot according to this definition.
+
+The difficulty of this programming task depends on several factors:
+
+\begin{itemize}
+\item {\bf Direct contact with the robot/task}: programming is easier if the user can see and touch the robot and its desired task. Control from a distance makes the programming process harder. For example, robots that are sent into natural disaster zones as first responders may have to be operated from a distance, which increases the programming task's difficulty because the operator's senses are limited to what can be perceived through the robot's own cameras or sensors.
+
+\item {\bf Task/environment variance}: if the task to be performed is always the same, the programming task is easier than if the goal task changes significantly or if the environment in which the robot must operate is changing. The program must be generalized to handle this variance, which makes the programming process more difficult.
+
+\item {\bf Goal specification}: some tasks are easy to describe, such as navigation goals specified by a single point in 3-dimensional space. Other goals, such as washing the dishes or tidying up, are more difficult to specify. Successful completion may be more dependent on how exactly the robot performs the task. Generally speaking, the more difficult it is to frame the goal specification, the more difficult the programming task will be.
+
+\item {\bf Amount of autonomy}: robots are gaining the ability to perform some functions autonomously, such as spatial navigation and object manipulation.  The less autonomy exhibited by the robot, the easier it is to program the robot, because increased autonomy requires the programmer to develop more complex mental models of the robot's perceptions and behavior. Teleoperation interfaces are fairly easy to program because there is generally a one-to-one mapping between the user's inputs and the robot's behavior. Once a robot starts to act autonomously, understanding its behavior (and debugging it!) becomes more challenging.
+\end{itemize}
+\end{changebar}
+
+For personal robotics to truly succeed, regular people will need to use robot programming interfaces to tell robots what to do. These interfaces for robot programming will need to be simple enough for ordinary consumers to be able to pick up and use. In this article I detail some of the challenges that make robot control such an inherently difficult problem.
 
 The explanation begins with a look at the state of the art in robot software today.
 
@@ -69,16 +83,81 @@ ROS provides a distributed publish/subscribe messaging platform for a collection
 Before ROS, roboticists had to create the software to control their robots from scratch, each doing the same work to create device drivers and rebuild libraries for their specific robot's hardware.  Now, ROS has been ported to around 100 different models of robots worldwide\footnote{http://www.ros.org/wiki/Robots}, enabling roboticists to quickly bring a new robot model online.
 
 \begin{figure*}[tbh]
-\center\scalebox{0.20}{\includegraphics{rviz.png}}
-\caption{RViz interface for robot visualization}
+\center\scalebox{0.13}{
+	\includegraphics{rviz1.png}
+	\includegraphics{rviz2.png}
+}
+\caption{RViz interfaces for robot visualization and control}
 \label{rviz}
 \end{figure*}
 
-However, ROS provides a fairly low-level interface to robot control. Designed for roboticists, the RViz interface (Figure~\ref{rviz}) displays all the sensor feeds coming from the robot and lets one send low-level motion commands to the robot such as rolling forward or rotating the shoulder joint. In the figure, a robot is shown examining objects on a table in front of it. The green pattern represents the data from a depth sensor mounted on the robot's head, whereas the purple line represents the walls detected by a laser rangefinder mounted on the robot's base. The tricolored axes display the various coordinate frames in use, and the gray floor displays the map the robot uses for navigation. (TODO: display costmaps, TF axes)
+However, ROS provides a fairly low-level interface to robot control. Designed for roboticists, the RViz interface (Figure~\ref{rviz}) displays all the sensor feeds coming from the robot and lets one send low-level motion commands to the robot such as rolling forward or rotating its shoulder joint. The figure shows two different perspectives on the same robot examining objects on a table in front of it. The left figure shows a third-person view of the robot and the table, rendered on top of a two-dimensional map of its environment (the gray pattern in the background). The green overlays on top of the tabletop objects indicate that they are recognized by the system as objects that can be picked up. The yellow grid pattern indicates horizontal surfaces that are detected, such as the floor.  The right figure shows the view as soon from the robot's head-mounted camera. The red/green/blue arrows are control markers that can be used to rotate and move the robot's gripper in all directions.
 
-This interface, while well suited for roboticists who need to examine the low-level sensor data and messages being processed by the robot, is not very user-friendly. It also illustrates some of the difficulties inherent in robot programming.
+\begin{changebar}
+\section{Why robot programming is hard}
+\end{changebar}
 
-\section{A 3D world}
+The Rviz interface, while well suited for roboticists who need to examine the low-level sensor data and messages being processed by the robot, is not very user-friendly. It also illustrates some of the difficulties inherent in robot programming.
+
+\subsection{Concurrency}
+
+% ROS nodes
+% multiple parts of robots (head, arms, base)
+% callbacks, coroutines, threads
+
+\begin{changebar}
+Many activities of daily living require coordinated action amongst multiple limbs. Anyone who has broken an arm, for example, understands the difficulty of trying to unscrew jar lids, pick up bulky objects, or chop vegetables with only a single arm. Controlling both arms simultaneously to perform coordinated actions is a matter of concurrent programming.
+
+The problem becomes even more complex with robots that have many moving parts.
+\end{changebar}
+For example, Willow Garage's PR-2 has two independently controlled 7-DOF arms, a head that can pan and tilt, a torso that can be raised and lowered, and a base that can move and turn in all directions. Robots are also equipped with a slew of sensors including cameras, depth sensors, laser rangefinders, touch sensors, and feedback about its electrical and motor systems. These sensors and actuators must be operated together in coordination to produce a desired robotic behavior.
+
+\begin{changebar}
+Concurrent programming is notoriously difficult even for professional programmers due to the possibility for race conditions and the complexity of reasoning about what the program does. Professional programmers learn to use advanced techniques such as multi-threading, event-driven callbacks, and coroutines in order to specify concurrent behavior in programs. Yet these concepts are notoriously difficult to use and debug, even for trained programmers; how can we expect non-technical users to be able to do the same?
+
+In addition to the low level concurrency needed to control multiple robot parts, there is also a need to specify concurrent robot behavior at a higher level. For example, a user may want to give the robot background tasks (such as cleaning or plugging oneself in when the battery is low) which should be scheduled in concert with foreground tasks (such as fetching a drink).
+\end{changebar}
+
+%Most robot programs can be simplified by only controlling one moving part at a time: first move the base, then raise the torso, then position the left arm, then position the right arm, finally open the cabinet. For many tasks this is a reasonable solution. However there is a subset of human tasks for which we need multiple parts moving simultaneously, such as picking up a heavy or bulky object with two hands, or turning one's head to look where one is going.
+
+%End user programming systems have tried to simplify the problem of concurrency. Some systems visualize the different components on a timeline. This approach is popular with media creation tools such as Apple's GarageBand or Autodesk's 3D Studio Max. A second paradigm, taken by visual programming languages such as Scratch~\cite{scratch}, makes the notion of time a global constant and runs all blocks of user code simultaneously in the virtual environment. More research is needed to discover what paradigm works best for controlling robot parts concurrently.
+
+% A second option for concurrency is to reduce the end user's need to write concurrent programs by defining new primitives that cover the common cases where concurrency is needed.  For example, a robot navigation algorithm may include the ability to turn the robot's head to look in the direction of motion, eliminating the need for the user to specify this complex behavior.  As another example, a two-armed robot could have both arms linked in a mirror configuration so that a command to move one arm would cause the other to mirror its motion, thus enabling the robot to pick up symmetric objects with two hands.
+
+\subsection{Uncertainty}
+
+% World changes out from under you
+% Hardware fails
+% Incomplete world models
+% Bayesian methods, probabilities
+
+Another challenge that robot programmers face is specifying how a robot should behave in an uncertain world. The world is constantly changing: any model that a robot could build of where things are located will be obsolete by the time it turns around. People walk around, objects get lost, furniture gets moved. Moreover, limitations in current sensing technology make it difficult to build a perfectly accurate model of the world. For example, differences in lighting make the same object look very different to an RGB camera. Therefore a robot cannot necessarily trust what it perceives, and it must be able to deal with the possibility that what it thinks is true is not actually true.
+
+In addition, robot hardware itself often produces unpredictable results. Unlike software, mechanical parts can slip, burn out, or break. They take time to actuate and do not come to a stop immediately. Giving a robot the same instruction multiple times may or may not result in the same outcome each time.
+
+Thus robot programs must have mechanisms in place to deal with uncertain truth and unpredictable hardware. Robot control loops usually sense the physical hardware during operation to determine whether a motion was carried out successfully.
+\begin{changebar}
+If an operator is not physically co-located or co-temporaneous with the robot,
+\end{changebar}
+she cannot see whether the robot carried out the desired motion, so she must think through possible outcomes while writing a program and craft appropriate responses for each eventuality. For example, while instructing a robot to pick up an object, a programmer must specify what to do if the object is not {\em where} it thinks it is, is not {\em what} it thinks it is, or if the robot fails to perform the desired grasp. Should it simply try again? Move a little bit to get a better view and then try again? Ask a human?
+
+\begin{changebar}
+In order to deal with these various types of uncertainty, professional programmers learn to use probabilistic models and craft fault-tolerant code with frequent error checking, which seems like too much to ask of casual programmers who just want a robot to do something useful in the home.
+\end{changebar}
+
+%Most end user programming systems to date simply ignore the problem of uncertainty. For robot programming to be successful, we will need to develop easily-understandable paradigms for handling uncertainty.
+
+\begin{changebar}
+\subsection{Commonsense reasoning}
+
+Reasoning about objects in the world requires some amount of common sense which has yet to be programmed consistently into robots. For example, a robot who has been asked to pick up and deliver a coffee cup may well select a grasp that involves dipping its fingers into the liquid and picking up the cup by its side wall. Although the grasp would be valid, this behavior would be judged somewhat undesireable by human observers.
+
+As another example, robots that are capable of automated navigation may fail to observe human norms when navigating through human spaces. The custom of staying to the right when passing in a hallway, for example, can cause confusion if a robot charges down the middle of the hall and does not yield to oncoming passerby.
+
+Endowing computers with common sense is still an active research area. Techniques for making use of common sense reasoning have not yet made it into the vocabulary of professional programmers. Yet these concepts will be taken for granted by end users of robots, who will expect their robots to obey common social norms as they perform their tasks.
+\end{changebar}
+
+\subsection{A 3D world}
 
 % Robot arms have 7DOF
 % grasps require 6D
@@ -94,66 +173,52 @@ One solution has been to mount additional cameras on different parts of the robo
 
 Typical input devices such as mice and touchscreens are also only good for interacting in two dimensions. For example, tapping on a point in a camera image does not uniquely identify a point in 3D space, but a line of possible points. When telling a robot to put something down, how can it know which of those points was meant? Current interfaces, such as the RViz display shown in Figure~\ref{rviz}, require complex camera manipulation and precise 3D positioning in order to uniquely specify the desired location.
 
-\section{7-DOF arms}
-
-A different aspect of high-dimensionality comes from the design of robot arms. A solid object in 3D space has six degrees of freedom (DOF): three dimensions to specify its position, and three more to specify its rotation. If a robot arm had only 6-DOF and was trying to execute a specific grasp of a particular object, such as picking up soda can from the side, there would be only a single arm configuration that would allow the gripper (a robotic hand) to pick up the can. In contrast, human arms and advanced robot arms have 7-DOF, which allows them one extra dimension of flexibility in achieving those grasps. To visualize this, imagine grasping a soda can on the table in front of you and then flapping your elbow up and down while keeping the can stationary. That extra degree of freedom enables your arm to take on all those different shapes while still achieving the desired grasp.
-
-Interfaces for robot arm teleoperation typically involve setting the position or angle of each joint in the arm individually. For example, a tablet-style interface might have fourteen buttons, one pair used to increase or decrease the angle of each joint in the arm. That additional degree of freedom makes it easier to identify a valid arm configuration for executing a grasp, since only one of many valid configurations must be found, not the unique one.  However controlling each individual joint position by clicking on buttons is tedious. Additionally, since the allowable joint positions are not completely independent, finding a correct solution is often done through trial and error.
+%\section{7-DOF arms}
+%
+%A different aspect of high-dimensionality comes from the design of robot arms. A solid object in 3D space has six degrees of freedom (DOF): three dimensions to specify its position, and three more to specify its rotation. If a robot arm had only 6-DOF and was trying to execute a specific grasp of a particular object, such as picking up soda can from the side, there would be only a single arm configuration that would allow the gripper (a robotic hand) to pick up the can. In contrast, human arms and advanced robot arms have 7-DOF, which allows them one extra dimension of flexibility in achieving those grasps. To visualize this, imagine grasping a soda can on the table in front of you and then flapping your elbow up and down while keeping the can stationary. That extra degree of freedom enables your arm to take on all those different shapes while still achieving the desired grasp.
+%
+%Interfaces for robot arm teleoperation typically involve setting the position or angle of each joint in the arm individually. For example, a tablet-style interface might have fourteen buttons, one pair used to increase or decrease the angle of each joint in the arm. That additional degree of freedom makes it easier to identify a valid arm configuration for executing a grasp, since only one of many valid configurations must be found, not the unique one.  However controlling each individual joint position by clicking on buttons is tedious. Additionally, since the allowable joint positions are not completely independent, finding a correct solution is often done through trial and error.
+%
+%Toolkits for doing automatic motion planning are maturing, which will simplify the problem of robot arm control from how the arm should move in fine-grained detail to specifying only the high-level target position and orientation. Yet the challenge of specifying that 6-DOF target position and orientation still remains, and this will continue to be a challenge for easy-to-use robot interfaces that work with existing 2D displays and input devices.
+%
 
 %There is a tradeoff between exposing these joint limitations to the programmer, which allows precise yet complex control, versus insulating a programmer from those considerations, which may lead to unpredictable behavior that is difficult to debug.
 
-Yet positioning an arm through direct manipulation or teleop is relatively easy compared to doing it programmatically. In order to program an arm, one must first specify {\em where} it should go.  Expert roboticists represent the world in terms of {\em reference frames} (coordinate systems that are defined relative to a fixed position). For example, one reference frame could be relative to the building, with the front door being at coordinate (0, 0).  Other reference frames are defined relative to stationary parts of the robot, such as its base (if it is on wheels), the head-mounted camera, or the right elbow joint.
-
-Sending an arm to a specific position is useful for robot tasks such as, for example, looking at what it is holding by moving its hand to half a meter in front of its face. This half-meter is most reliably specified in the reference frame relative to the robot's head. Given this goal position, the programmer must find a series of arm configurations that moves the arm to the desired place, while avoiding contact with obstacles in the environment.
+% Yet positioning an arm through direct manipulation or teleop is relatively easy compared to doing it programmatically. In order to program an arm, one must first specify {\em where} it should go.  Expert roboticists represent the world in terms of {\em reference frames} (coordinate systems that are defined relative to a fixed position). For example, one reference frame could be relative to the building, with the front door being at coordinate (0, 0).  Other reference frames are defined relative to stationary parts of the robot, such as its base (if it is on wheels), the head-mounted camera, or the right elbow joint.
+% 
+% Sending an arm to a specific position is useful for robot tasks such as, for example, looking at what it is holding by moving its hand to half a meter in front of its face. This half-meter is most reliably specified in the reference frame relative to the robot's head. Given this goal position, the programmer must find a series of arm configurations that moves the arm to the desired place, while avoiding contact with obstacles in the environment.
 
 % such as the base or the head-mounted camera) and use matrix algebra to convert between different frames of reference. Robot joint positions are typically specified relative to their own reference frame; for example, a robot's wrist, which is located at the end of its arm, can be commanded to rotate around the axis that is aligned with the robot's forearm (similar to the motion we use to screw in a light bulb). Calculating the absolute position of a robot's hand (for example, to determine whether it is near the door handle) requires a series of complex matrix calculations starting from the position of its base, through its shoulder, and all the joints, down to the hand. The opposite problem, calculating the joint positions required to get the hand to a particular position, is called {\em inverse kinematics} and is typically solved using either analytical equations or heuristic approximation methods.
 
-Toolkits for doing automatic motion planning are maturing, which will simplify the problem of robot arm control from how the arm should move in fine-grained detail to specifying only the high-level target position and orientation. Yet the challenge of specifying that 6-DOF target position and orientation still remains, and this will continue to be a challenge for easy-to-use robot interfaces that work with existing 2D displays and input devices.
 
-\section{Uncertainty}
+\begin{changebar}
+\section{End user programming for robots}
 
-% World changes out from under you
-% Hardware fails
-% Incomplete world models
-% Bayesian methods, probabilities
+The field of end user programming~\cite{lieberman-yourwish,dontcheva-nocode} has developed a variety of solutions to enable users of software systems to create or modify software artifacts without having to learn the intricacies of programming.  
 
-Another challenge that robot programmers face is specifying how a robot should behave in an uncertain world. The world is constantly changing: any model that a robot could build of where things are located will be obsolete by the time it turns around. People walk around, objects get lost, furniture gets moved. Moreover, limitations in current sensing technology make it difficult to build a perfectly accurate model of the world. For example, differences in lighting make the same object look very different to an RGB camera. Therefore a robot cannot necessarily trust what it perceives, and it must be able to deal with the possibility that what it thinks is true is not actually true.
+The key insight for these EUP systems is to reduce the complexity of a programming task through simplification. The three primary methods include (a) visual programming: simplifying or eliminating tricky syntax through graphical representations; (b) domain-specific languages: limiting concepts to only those necessary in a particular domain of use, such as spreadsheet formulas; and (c) programming by demonstration or example: letting users focus on concrete examples rather than difficult abstractions.
 
-In addition, robot hardware itself often produces unpredictable results. Unlike software, mechanical parts can slip, burn out, or break. They take time to actuate and do not come to a stop immediately. Giving a robot the same instruction multiple times may or may not result in the same outcome each time.
+However, this simplicity typically comes at the price of expressiveness. By reducing the complexity exposed in an interface, we also reduce the number or variety of functions that can be performed in that interface. In order to make robots that are more tractable for non-technical users, we will have to simplify key aspects of robot behavior, thus sacrificing robots' ability to perform a full range of behavior.
+\end{changebar}
 
-What does this mean for robot programmers? Robot programs must have mechanisms in place to deal with uncertain truth and unpredictable hardware. Robot control loops usually sense the physical hardware during operation to determine whether a motion was carried out successfully. Unlike with demonstration and teleop, where the operator can see if the robot carried out the desired motion and take appropriate action, a robot programmer must think through possible outcomes while writing a program and craft appropriate responses for each eventuality. For example, while instructing a robot to pick up an object, a programmer must specify what to do if the object is not {\em where} it thinks it is, is not {\em what} it thinks it is, or if the robot fails to perform the desired grasp. Should it simply try again? Move a little bit to get a better view and then try again? Ask a human?
-
-In order to deal with these various types of uncertainty, professional programmers learn to use probabilistic models and learn to craft fault-tolerant code with frequent error checking, which seems like an heavy burden for casual programmers. Most end user programming systems to date simply ignore the problem of uncertainty. For robot programming to be successful, we will need to develop easily-understandable paradigms for handling uncertainty.
-
-\section{Concurrency}
-
-% ROS nodes
-% multiple parts of robots (head, arms, base)
-% callbacks, coroutines, threads
-
-Robots are complex beings full of many moving parts. For example, Willow Garage's PR-2 has two independently controlled 7-DOF arms, a head that can pan and tilt, a torso that can be raised and lowered, and a base that can move and turn in all directions. Robots are also equipped with a slew of sensors including cameras, depth sensors, laser rangefinders, touch sensors, and feedback about its electrical and motor systems. Sensors and actuators must be operated together in coordination to produce a desired robotic behavior.
-
-Concurrent programming is notoriously difficult even for professional programmers due to the possibility for race conditions and the complexity of reasoning about what the program does. Most robot programs can be simplified by only controlling one moving part at a time: first move the base, then raise the torso, then position the left arm, then position the right arm, finally open the cabinet. For many tasks this is a reasonable solution. However there is a subset of human tasks for which we need multiple parts moving simultaneously, such as picking up a heavy or bulky object with two hands, or turning one's head to look where one is going.
-
-End user programming systems have tried to simplify the problem of concurrency. Some systems visualize the different components on a timeline. This approach is popular with media creation tools such as Apple's GarageBand or Autodesk's 3D Studio Max. A second paradigm, taken by visual programming languages such as Scratch~\cite{scratch}, makes the notion of time a global constant and runs all blocks of user code simultaneously in the virtual environment. More research is needed to discover what paradigm works best for controlling robot parts concurrently.
-
-% A second option for concurrency is to reduce the end user's need to write concurrent programs by defining new primitives that cover the common cases where concurrency is needed.  For example, a robot navigation algorithm may include the ability to turn the robot's head to look in the direction of motion, eliminating the need for the user to specify this complex behavior.  As another example, a two-armed robot could have both arms linked in a mirror configuration so that a command to move one arm would cause the other to mirror its motion, thus enabling the robot to pick up symmetric objects with two hands.
-
-Even if individual robot parts can be programmed to act in parallel, there will still be a need for reasoning about concurrent robot behavior at a higher level. One form this will take is for background tasks, such as specifying that a robot should try to tidy up the room in between (or during) its other assigned chores. Supporting high level concurrency will introduce new problems, such as task prioritization (is the current task of bringing you a beer more important than cleaning up the wine spill it just detected?).
-
-\section{The way forward}
-
-Robot programming environments are beginning to address all of these challenges and produce useful systems that can be controlled by untrained users. The key tradeoff is simplicity versus expressiveness: in order to make systems that are more tractable for novices, they need to simplify key aspects of the robot's behavior, thereby sacrificing its ability to perform a full range of behavior.
-
-This past generation of commercial home robots illustrates one extreme end of the simplicity versus expressiveness tradeoff. iRobot's successful Roomba line of vacuum-cleaning robots\footnote{http://www.irobot.com/us/learn/home/roomba.aspx} sports a single-button interface that simply says ``Clean''. While the robot will eventually clean your floors, you lose control over how exactly it does so, as it performs what seems like a random walk through your home.
+%The current generation of commercial home robots illustrates one extreme end of the simplicity versus expressiveness tradeoff. iRobot's successful Roomba line of vacuum-cleaning robots\footnote{http://www.irobot.com/us/learn/home/roomba.aspx} sports a single-button interface that simply says ``Clean''. While the robot will eventually clean your floors, you lose control over how exactly it does so, as it performs what seems like a random walk through your home.
 
 %The next generation of commercial robots in this space will likely look like Rethink Robots' Baxter system\footnote{http://www.rethinkrobotics.com/index.php/products/baxter/}.  Baxter is a two-armed manipulator than can be programmed by demonstration to automate factory work simply by guiding its arms to the appropriate position and tapping icons on the robot's ``face''.  Unlike past demonstration-based robots which mindlessly repeated the same motions, Baxter has an intelligent motion planner which can immediately cease moving the arms if it detects something in the way, such as a human walking into its workspace.
 
 %This style of programming makes it possible for people to specify the robot's behavior directly on the robot, without having to deal with any abstractions. In addition, Baxter performs its work in a human-safe way, immediately ceasing motion if it detects that a human has moved into its path, enabling it to work side by side with factory workers unlike previous generations of industrial robots.
 
-Roboticists are hard at work developing increasingly autonomous robot capabilities for well-specified tasks such as 2D navigation (getting from point A to point B within a building), arm motion planning (moving the gripper to a specified position and orientation while avoiding obstacles)\footnote{MoveIt!, http://moveit.ros.org}, and recognizing and picking up discrete objects on a flat surface. Autonomy is key for enabling robots to automatically perform longer and more complex tasks on their own.
+%Roboticists are hard at work developing increasingly autonomous robot capabilities for well-specified tasks such as 2D navigation (getting from point A to point B within a building), arm motion planning (moving the gripper to a specified position and orientation while avoiding obstacles)\footnote{MoveIt!, http://moveit.ros.org}, and recognizing and picking up discrete objects on a flat surface. Autonomy is key for enabling robots to automatically perform longer and more complex tasks on their own.
 
-Our approach to designing end-user-programmable interfaces is to craft these autonomous components into a good set of {\em primitives} in an end user programming language, such that a non-expert would not have to ``look inside the box'' to understand how each one works. Roboticists can then implement these primitives using advanced techniques to solve the difficult problems encountered during robot programming. For example, a good autonomous navigation component could incorporate a set of recovery behaviors to try on navigation failure, such as turning around, waiting for people/obstacles to clear out of its path, and backing up and retrying. It could also bake in some concurrent strategies, such as turning the head to look in the direction the robot is going. 
+\begin{changebar}
+\subsection{Higher-level primitives}
+
+One way to trade off expressiveness for simplicity is to abstract away details of robot behavior into higher-level primitives. This abstraction can be difficult for roboticists to accept, who have become accustomed to having fine-grained control over robot behavior and error handling. Yet abstracting away these details is going to be critical for end users to be able to develop a working understanding of a robot's functionality.
+
+%Our approach to designing end-user-programmable interfaces is to craft these autonomous components into a good set of {\em primitives} in an end user programming language, such that a non-expert would not have to ``look inside the box'' to understand how each one works.
+
+Roboticists can then implement these primitives using advanced techniques to solve the difficult problems encountered during robot programming.
+\end{changebar}
+For example, a good autonomous navigation component could incorporate a set of recovery behaviors to try on navigation failure, such as turning around, waiting for people/obstacles to clear out of its path, and backing up and retrying. It could also bake in some concurrent strategies, such as turning the head to look in the direction the robot is going. 
 
 %Encapsulating all this functionality into a single component with a well-defined interface makes it easier for end user robot programmers by giving them more reliable, easier to understand components they can assemble into programs.
 
@@ -163,15 +228,54 @@ Our approach to designing end-user-programmable interfaces is to craft these aut
 \label{contops}
 \end{figure*}
 
-We have made use of these autonomous functions to develop a system at Willow Garage called Continuous Ops (short for ``Continuous Operations'') that enables casual users to control our PR-2 robots through a web interface (Figure~\ref{contops}). This web interface, accessible from standard laptops or tablets, provides the ability to tell a PR-2 robot to unplug itself from the power supply, navigate autonomously to anywhere in the buliding, position itself in front of a table, automatically identify graspable objects on that table, and pick up an object.
+We made use of these autonomous functions to develop a system at Willow Garage called Continuous Ops (short for ``Continuous Operations'') that enabled casual users to control PR-2 robots through a web interface (Figure~\ref{contops}).
+\begin{changebar}
+The interface was inspired by the head of Willow Garage, who noted that even though he had a lab full of robots, he himself wasn't able to show off any of the functionality of his robots to visitors without a roboticist present to operate them.
+\end{changebar}
 
-This interface lies somewhere between teleoperation and programming. It does not require an operator to exert direct control over the robot, but the commands that are given are executed immediately by the robot rather than scheduled to occur later in time. We are also exploring interfaces for sequencing these primitives into scheduled programs, in order to validate that the set of primitives we are developing is complete enough to perform useful tasks.
+In response, we developed a web interface, accessible from standard laptops or tablets, that provided the ability to tell a PR-2 robot to perform a variety of tasks.  It could unplug itself from the power supply, navigate autonomously to anywhere in the buliding, position itself in front of a table, automatically identify graspable objects on that table, and pick up an object.
+\begin{changebar}
+The interface enabled non-technical users to activate several core autonomous functions of the PR-2 through an easy-to-use interface.
 
-Another key component of our approach, which we call {\em shared autonomy}, is to fall back on teleoperator assistance when autonomy fails, as it will invariably do for the near future. In our system designs, the teleoperator does not necessarily have to be the person who wrote the program. Instead, we are modeling our system after telephone call centers where a team of trained professionals handle incidents as they arise and get the robots back on track to fulfill their programmed goals. As a stepping-stone towards full autonomy, this approach enables us to start testing end user programmable systems without needing a fully reliable set of autonomous primitives in place to support them.
+The drawback of this interface was that the user lost fine-grained control over exactly how the robot performed these tasks. For example, the interface only supported using the robot's right arm to pick up an object; the left arm was unused. It did not allow the user to specify exactly how to pick up an object (e.g. from above or from the side), even though these parameters can be customized at a lower level of control. 
 
-Over time, as we refine existing autonomous primitives and build new domain-specific primitives, my hope is that we will expand the repertoire of robust end-user-programmable robot behavior. And perhaps that goal of having our own Rosie the Robot in our homes will soon become a reality.
+The challenge in designing a simpler interface is to carefully craft exactly which functionality to expose, and which functionality can be safely hidden from casual users.  For the intended users of the Continuous Ops interface, the provided functionality was sufficient and satisfied the requirements of being easy to use and always available. In fact, we heard of several cases where people used the interface remotely (e.g. while away at a conference) to show off the functionality of the robots in the lab.
 
+\subsection{Shared autonomy}
 
+Another way to simplify the programming problem for end users is to take advantage of {\em shared autonomy}. The idea behind shared autonomy is to fall back on teleoperator assistance when autonomy fails, as it will invariably do for the near future. A teleoperator does not necessarily have to be the person who wrote the program. Instead, they could function similarly to staff in telephone call centers, where a team of trained professionals handle incidents as they arise and get the robots back on track to fulfill their programmed goals.
+
+With a human expert on call to get a robot out of situations it was not programmed to handle, we can simplify the programming problem for end users so that they do not have to specify error recovery behaviors for every single corner case.
+\end{changebar}
+
+As a stepping-stone towards full autonomy, this approach also enables the testing of end user programmable systems without needing a fully reliable set of autonomous primitives in place to support them.
+
+\begin{changebar}
+This approach worked well during a multi-day deployment of a delivery system at Willow Garage. Users could request delivery of chocolates or snacks to their office, and the system would autonomously retrieve those items and deliver them to their office door. In the rare cases that the autonomous behaviors failed, several roboticists were notified by email and played the role of teleoperators. They initiated recovery behaviors to get the robots back on track. From the end users' perspective, the robot performed its tasks fully autonomously, sparing them from having to worry about specifying recovery behaviors.
+\end{changebar}
+
+\begin{changebar}
+\subsection{New 3D input devices}
+
+Finally, video gaming technology is driving a new crop of input and output devices that make it easier to interact with and perceive the 3D world around us. These devices will make it easier for robots to perceive the world in three dimensions, and for people to instruct those robots using more natural gestures. Input devices such as the Razer Hydra, Leap Motion Controller, and Microsoft Kinect can sense motion in 3D, enabling robots to better sense motion and objects in the world. 3D output devices such as the Oculus Rift project stereo images in 3D so that people can perceive what robots are seeing in three dimensions.
+
+These new devices could enable a new generation of robot control interfaces that make interacting with robots more natural and intuitive. For example, David Gossow at Willow Garage developed a research prototype called the PR-2 Surrogate which provided a fully-immersive teleoperation interface for the PR-2 robot. It used a Razer Hydra control to track your hand positions, which were then mapped directly to the robot's hand positions. It also displayed a stereo camera feed from the robot's head-mounted cameras into an Oculus Rift device, giving you a stereo view of what the robot was seeing. The Rift's head tracking capability was mapped to moving the robot's head, enabling you to look around the robot's environment just by turning your head. This demo showed that these new input/output technologies hold much promise for making it easier to interact with, control, and program complex robots.
+
+\section{Conclusion}
+
+Personal service robots have an enormous potential to do good for humanity by enabling people to live more independent lives and free them from mundane housekeeping chores. However, controlling these robots boils down to a small matter of programming. In this article I have explained why programming robots is inherently difficult, even for skilled programmers.  Drawing lessons from the field of end user programming, I have proposed several paths forward that may enable the creation of more accessible interfaces for personal robots in the future.
+\end{changebar}
+
+%Over time, as we refine existing autonomous primitives and build new domain-specific primitives, my hope is that we will expand the repertoire of robust end-user-programmable robot behavior. And perhaps that goal of having our own Rosie the Robot in our homes will soon become a reality.
+
+% Acknowledgements
+% Andreas Paepke
+% Kaijen Hsiao
+% Matei Ciocarlie
+% Jon Binney
+% Brandon Alexander
+% Maya Cakmak
+% anonymous reviewers
 
 
 
@@ -239,3 +343,5 @@ Over time, as we refine existing autonomous primitives and build new domain-spec
 \bibliography{general}
 
 \end{document}
+
+% vim: set lbr:

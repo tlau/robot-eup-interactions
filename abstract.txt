@@ -1,0 +1,5 @@
+Despite many advances in robotics, we are still a long way from enjoying robot
+butlers in our homes. A large part of the problem is that robot use requires
+robot programming, which is still very difficult for ordinary consumers. In this
+article, I examine some of the fundamental challenges for robot programming
+and outline possible solutions that could make personal robotics more widespread.
