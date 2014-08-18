@@ -1,4 +1,3 @@
-% vim: set lbr:
 \documentclass[10pt,twocolumn]{article}
 \usepackage{graphicx}
 \usepackage{changebar}
@@ -19,7 +18,7 @@ But the world is changing. Computing has moved off the desktop and into the smar
 
 All these innovations have become possible through multiple advances: in sensor technology, which robots use to perceive the world around them; in planning and navigation, which enable robots to move around in the world unaided; in human-safe motion controllers, which let robots move their limbs without endangering the people around them; in the ROS open source robot operating system, which enables roboticists to build on each others' work without starting from scratch; and many more advances in the broader field of robotics.
 
-Yet the holy grail of personal service robots remains elusive. I believe there are three main reasons. There is a wide variety of tasks that people want service robots to perform, ranging from folding laundry, to finding lost car keys, to picking up the kids' toys, or doing the dishes and putting them away. These tasks must be performed in a variety of environments, including cluttered homes and kitchens with different affordances such as modern drawer pulls or faucet handles. Most importantly, the robots themselves must be easy to operate by non-technical people.
+Yet the holy grail of personal service robots remains elusive. I believe there are three main reasons. First, there is a wide variety of tasks that people want service robots to perform, ranging from folding laundry, to finding lost car keys, to picking up the kids' toys, or doing the dishes and putting them away. Second, these tasks must be performed in a variety of environments, including cluttered homes and kitchens with different affordances such as modern drawer pulls or faucet handles. Finally and most importantly, the robots themselves must be easy to operate by non-technical people.
 
 We have started to see robots enter the marketplace that address two out of those three challenges. For example, iRobot's Roomba\footnote{http://www.irobot.com} only vacuums floors, but it does so in a variety of environments and is dead simple to use even by non-technical folks. On the other hand, Rethink Robotics' Baxter robot\footnote{http://www.rethinkrobotics.com/products/baxter/} can be easily programmed to perform a variety of tasks in light industrial settings, but its lack of mobility make it less suitable for the home. As another example, Willow Garage's PR-2 robot has been programmed to perform a variety of household tasks, in a variety of environments, but can only be operated by highly skilled roboticists.
 
@@ -103,9 +102,9 @@ Many activities of daily living require coordinated action amongst multiple limb
 The problem becomes even more complex with robots that have many moving parts.
 For example, Willow Garage's PR-2 has two independently controlled 7-DOF arms, a head that can pan and tilt, a torso that can be raised and lowered, and a base that can move and turn in all directions. Robots are also equipped with a slew of sensors including cameras, depth sensors, laser rangefinders, touch sensors, and feedback about its electrical and motor systems. These sensors and actuators must be operated together in coordination to produce a desired robotic behavior.
 
-Concurrent programming is notoriously difficult even for professional programmers due to the possibility for race conditions and the complexity of reasoning about what the program does. Professional programmers learn to use advanced techniques such as multi-threading, event-driven callbacks, and coroutines in order to specify concurrent behavior in programs. Yet these concepts are notoriously difficult to use and debug, even for trained programmers; how can we expect non-technical users to be able to do the same?
+Concurrent programming is notoriously difficult even for professional programmers due to the possibility for race conditions and the complexity of reasoning about what the program does~\cite{shavit-cacm11}. Professional programmers learn to use advanced techniques such as multi-threading, event-driven callbacks, and coroutines in order to specify concurrent behavior in programs. Yet these concepts are notoriously difficult to use and debug, even for trained programmers; how can we expect non-technical users to be able to do the same?
 
-In addition to the low level concurrency needed to control multiple robot parts, there is also a need to specify concurrent robot behavior at a higher level. For example, a user may want to give the robot background tasks (such as cleaning or plugging oneself in when the battery is low) which should be scheduled in concert with foreground tasks (such as fetching a drink).
+In addition to the low level concurrency needed to control multiple robot parts, there is also a need to specify concurrent robot behavior at a higher level~\cite{cakmak-hri13}. For example, a user may want to give the robot background tasks (such as cleaning or plugging oneself in when the battery is low) which should be scheduled in concert with foreground tasks (such as fetching a drink).
 
 %Most robot programs can be simplified by only controlling one moving part at a time: first move the base, then raise the torso, then position the left arm, then position the right arm, finally open the cabinet. For many tasks this is a reasonable solution. However there is a subset of human tasks for which we need multiple parts moving simultaneously, such as picking up a heavy or bulky object with two hands, or turning one's head to look where one is going.
 
@@ -120,7 +119,7 @@ In addition to the low level concurrency needed to control multiple robot parts,
 % Incomplete world models
 % Bayesian methods, probabilities
 
-Another challenge that robot programmers face is specifying how a robot should behave in an uncertain world. The world is constantly changing: any model that a robot could build of where things are located will be obsolete by the time it turns around. People walk around, objects get lost, furniture gets moved. Moreover, limitations in current sensing technology make it difficult to build a perfectly accurate model of the world. For example, differences in lighting make the same object look very different to an RGB camera. Therefore a robot cannot necessarily trust what it perceives, and it must be able to deal with the possibility that what it thinks is true is not actually true.
+Another challenge that robot programmers face is specifying how a robot should behave in an uncertain world. The world is constantly changing: any model that a robot could build of where things are located will be obsolete by the time it turns around~\cite{fox-jair99}. People walk around, objects get lost, furniture gets moved. Moreover, limitations in current sensing technology make it difficult to build a perfectly accurate model of the world~\cite{kemp-ieee07}. For example, differences in lighting make the same object look very different to an RGB camera. Therefore a robot cannot necessarily trust what it perceives, and it must be able to deal with the possibility that what it thinks is true is not actually true.
 
 In addition, robot hardware itself often produces unpredictable results. Unlike software, mechanical parts can slip, burn out, or break. They take time to actuate and do not come to a stop immediately. Giving a robot the same instruction multiple times may or may not result in the same outcome each time.
 
@@ -128,7 +127,7 @@ Thus robot programs must have mechanisms in place to deal with uncertain truth a
 If an operator is not physically co-located or co-temporaneous with the robot,
 she cannot see whether the robot carried out the desired motion, so she must think through possible outcomes while writing a program and craft appropriate responses for each eventuality. For example, while instructing a robot to pick up an object, a programmer must specify what to do if the object is not {\em where} it thinks it is, is not {\em what} it thinks it is, or if the robot fails to perform the desired grasp. Should it simply try again? Move a little bit to get a better view and then try again? Ask a human?
 
-In order to deal with these various types of uncertainty, professional programmers learn to use probabilistic models and craft fault-tolerant code with frequent error checking, which seems like too much to ask of casual programmers who just want a robot to do something useful in the home.
+In order to deal with these various types of uncertainty, professional programmers learn to use probabilistic models~\cite{darwiche-cacm10} and craft fault-tolerant code~\cite{wright-cacm09} with frequent error checking, which seems like too much to ask of casual programmers who just want a robot to do something useful in the home.
 
 %Most end user programming systems to date simply ignore the problem of uncertainty. For robot programming to be successful, we will need to develop easily-understandable paradigms for handling uncertainty.
 
@@ -138,7 +137,7 @@ Reasoning about objects in the world requires some amount of common sense which 
 
 As another example, robots that are capable of automated navigation may fail to observe human norms when navigating through human spaces. The custom of staying to the right when passing in a hallway, for example, can cause confusion if a robot charges down the middle of the hall and does not yield to oncoming passerby.
 
-Endowing computers with common sense is still an active research area. Techniques for making use of common sense reasoning have not yet made it into the vocabulary of professional programmers. Yet these concepts will be taken for granted by end users of robots, who will expect their robots to obey common social norms as they perform their tasks.
+Endowing computers with common sense is still an active research area~\cite{mueller-cacm09}. Techniques for making use of common sense reasoning have not yet made it into the vocabulary of professional programmers. Yet these concepts will be taken for granted by end users of robots, who will expect their robots to obey common social norms as they perform their tasks.
 
 \subsection{A 3D world}
 
@@ -315,3 +314,4 @@ Personal service robots have an enormous potential to do good for humanity by en
 
 \end{document}
 
+% vim: set lbr:
