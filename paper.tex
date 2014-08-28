@@ -12,6 +12,11 @@ Santa Clara, CA\\
 }
 \maketitle
 
+% Hai Nguyen's ROCON
+% Maya's Robot PBD
+% Strips style robot planning
+
+
 I never thought I would be a roboticist. In grad school, our robotics team spent months teaching little robot dogs to play soccer and solving other seemingly simple problems. Far better to work in the world of software, I figured, where the systems I built could make a real difference in people's lives. Software could automate repetitive tasks in computer use and free people from mundane work. So instead I developed expertise in human-computer interaction and intelligent user interfaces. My chosen field, end user programming, has the potential to enable millions of ordinary computer users to customize and adapt systems to their own needs.
 
 But the world is changing. Computing has moved off the desktop and into the smartphones, smart environments, and the world around us. Innovation is happening in the physical world, using computing to effect material change in our environment. The past decades have seen industrial robots increase manufacturing efficiency on the factory floor. Even more, we are now seeing robots tackle tasks from our daily lives. Robotic vacuum cleaners are changing the way we clean our homes. Robotic lawnmowers keep the yard tidy without having to lift a finger. Nest's robotic thermostat learns your habits and keeps your home at the optimal temperature. Google's driverless car could change the way we commute.
@@ -54,16 +59,14 @@ Many of the lessons learned from the fields of end user programming~\cite{dontch
 % REF: something from the EUP literature? Andy Ko or Margaret Burnett?
 
 \item {\bf Goal specification}: some tasks are easy to describe, such as navigation goals specified by a single point in 3-dimensional space. Other goals, such as washing the dishes or tidying up, are more difficult to specify. Successful completion may be more dependent on how exactly the robot performs the task. Generally speaking, the more difficult it is to frame the goal specification, the more difficult the programming task will be~\cite{ko-vlhcc04}.
-% REF: something from the EUP literature?
 
 \item {\bf Amount of autonomy}: robots are gaining the ability to perform some functions autonomously, such as spatial navigation and object manipulation.  The less autonomy exhibited by the robot, the easier it is to program the robot, because increased autonomy requires the programmer to develop more complex mental models of the robot's perceptions and behavior~\cite{kulesza-chi12}. Teleoperation interfaces are fairly easy to use because there is generally a one-to-one mapping between the user's inputs and the robot's behavior. Once a robot starts to act autonomously, understanding its behavior (and debugging it!) becomes more challenging.
 \end{itemize}
 
-For personal robotics to truly succeed, regular people will need to use robot programming interfaces to tell robots what to do. These interfaces for robot programming will need to be simple enough for ordinary consumers to be able to pick up and use. In this article I detail some of the challenges that make robot control such an inherently difficult problem.
+For personal robotics to truly succeed, regular people will need to use robot programming interfaces to tell robots what to do. These interfaces for robot programming will need to be simple enough for ordinary consumers to be able to pick up and use. Until users are able to instruct robots quickly and with low effort, personal robotics will be limited to niche markets. Why is end user robot programming so challenging? Several compounding factors make it more difficult than normal computer use.
 
-The explanation begins with a look at the state of the art in robot software today.
+The story begins with a look at the state of the art in robot software today.
 
-% Until users are able to instruct robots quickly and with low effort, personal robotics will be limited to niche markets.  Why is end user robot programming so challenging? Several compounding factors make it more difficult than normal computer use.
 
 \section{The state of the art}
 
@@ -126,12 +129,12 @@ Another challenge that robot programmers face is specifying how a robot should b
 In addition, robot hardware itself often produces unpredictable results. Unlike software, mechanical parts can slip, burn out, or break. They take time to actuate and do not come to a stop immediately. Giving a robot the same instruction multiple times may or may not result in the same outcome each time.
 
 Thus robot programs must have mechanisms in place to deal with uncertain truth and unpredictable hardware. Robot control loops usually sense the physical hardware during operation to determine whether a motion was carried out successfully.
-If an operator is not physically co-located or co-temporaneous with the robot,
-she cannot see whether the robot carried out the desired motion, so she must think through possible outcomes while writing a program and craft appropriate responses for each eventuality. For example, while instructing a robot to pick up an object, a programmer must specify what to do if the object is not {\em where} it thinks it is, is not {\em what} it thinks it is, or if the robot fails to perform the desired grasp. Should it simply try again? Move a little bit to get a better view and then try again? Ask a human?
+If an operator is not physically co-located or co-temporaneous with the robot, she cannot see whether the robot carried out the desired motion, so she must think through possible outcomes while writing a program and craft appropriate responses for each eventuality. For example, while instructing a robot to pick up an object, a programmer must specify what to do if the object is not {\em where} it thinks it is, is not {\em what} it thinks it is, or if the robot fails to perform the desired grasp. Should it simply try again? Move a little bit to get a better view and then try again? Ask a human?
 
-In order to deal with these various types of uncertainty, professional programmers learn to use probabilistic models~\cite{darwiche-cacm10} and craft fault-tolerant code~\cite{wright-cacm09} with frequent error checking, which seems like too much to ask of casual programmers who just to teach their robot to do something useful in the home.
+In order to deal with these various types of uncertainty, professional programmers learn to use probabilistic models~\cite{darwiche-cacm10} and craft fault-tolerant code~\cite{wright-cacm09} with frequent error checking. Nguyen's ROS Commander (ROSCo) system is an end-user programming system aimed to enable home users to define new behaviors for PR2 robots by visually crafting finite state machines~\cite{nguyen-icra13}. ROSCo XXX TODO
 
-%Most end user programming systems to date simply ignore the problem of uncertainty. For robot programming to be successful, we will need to develop easily-understandable paradigms for handling uncertainty.
+which seems like too much to ask of casual programmers who just want to teach their robot to do something useful in the home.
+
 
 \subsection{Commonsense reasoning}
 
