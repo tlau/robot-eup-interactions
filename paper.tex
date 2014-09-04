@@ -156,6 +156,11 @@ One solution has been to mount additional cameras on different parts of the robo
 
 Typical input devices such as mice and touchscreens are also only good for interacting in two dimensions. For example, tapping on a point in a camera image does not uniquely identify a point in 3D space, but a line of possible points. When telling a robot to put something down, how can it know which of those points was meant? Current interfaces, such as the RViz display shown in Figure~\ref{rviz}, require complex camera manipulation and precise 3D positioning in order to uniquely specify the desired location.
 
+Work on robot programming by demonstration (e.g., Cakmak {\sl et al}~\cite{cakmak-rss10}) reduces the need to interact with 3D visualizations by having users directly manipulate the robot. Nevertheless, participants in their user study found the 3D environment difficult to navigate TBD!!!
+
+!!! Talk about Maya's work here on PBD with interactive Action Visualizations
+http://www.roboticsproceedings.org/rss10/p48.pdf
+
 %\section{7-DOF arms}
 %
 %A different aspect of high-dimensionality comes from the design of robot arms. A solid object in 3D space has six degrees of freedom (DOF): three dimensions to specify its position, and three more to specify its rotation. If a robot arm had only 6-DOF and was trying to execute a specific grasp of a particular object, such as picking up soda can from the side, there would be only a single arm configuration that would allow the gripper (a robotic hand) to pick up the can. In contrast, human arms and advanced robot arms have 7-DOF, which allows them one extra dimension of flexibility in achieving those grasps. To visualize this, imagine grasping a soda can on the table in front of you and then flapping your elbow up and down while keeping the can stationary. That extra degree of freedom enables your arm to take on all those different shapes while still achieving the desired grasp.
