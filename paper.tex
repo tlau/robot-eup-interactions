@@ -12,9 +12,6 @@ Santa Clara, CA\\
 }
 \maketitle
 
-% Maya's Robot PBD
-% Strips style robot planning
-
 
 I never thought I would be a roboticist. In grad school I focused on software agents -- {\em softbots}~\cite{etzioni-cacm94} -- that automated repetitive tasks and freed people from mundane work.  I developed expertise in human-computer interaction and intelligent user interfaces. The field of end user programming, where I have focused most of my research, has the potential to enable millions of ordinary computer users to customize and adapt software systems to their own needs.
 
@@ -36,9 +33,9 @@ One important use case for personal service robots will be in-home care and assi
 
 Yet our experience with Robots for Humanity underscored how difficult it was for ordinary mortals to instruct robots what to do. Even using state-of-the-art robot visualization software developed at Willow Garage, simple teleoperation tasks such as opening a cabinet door were very difficult for Henry to accomplish. While Henry had only limited interaction capabilities, he was also strongly motivated because he has no alternatives. Able-bodied consumers, on the other hand, would quickly lose patience and simply fetch the towel themselves. If the state of the art in robot operation is so time-consuming, what hope do we have that ordinary mortals will be able to operate robots to perform these tasks in their own homes?
 
-While Henry's case highlights the challenges of creating usable assistive robotics interfaces, it also illustrates the enormous benefit to humanity of enabling disabled adults to regain some of their independence. With this goal in mind, personal service robots are more than a consumer toy, but a technology that could changes people's lives for the better.  Why, then, are robots still so difficult to use? What makes robots so difficult to operate?
+While Henry's case highlights the challenges of creating usable assistive robotics interfaces, it also illustrates the enormous benefit to humanity of enabling disabled adults to regain some of their independence. With this goal in mind, personal service robots are more than a consumer toy, but a technology that could change people's lives for the better.  Why, then, are robots still so difficult to use? What makes robots so difficult to operate?
 
-\section{Robot programming}
+\section{Programming robots}
 
 Wikipedia defines computer programming as follows (italicized text added for clarification):
 
@@ -46,11 +43,11 @@ Wikipedia defines computer programming as follows (italicized text added for cla
 The purpose of programming is to find a sequence of instructions that will {\it [cause the computer to]} automate performing a specific task or solve a given problem.
 \end{quote}
 
-If you replace computer with robot, we come to a definition of robot programming: finding the right series of instructions that cause a robot to automate a task or exhibit a certain behavior. Every robot makes available a certain set of functionality -- its user-visible API. These are the primitive behaviors that have been programmed into the robot and can be activated by its user. End users must select which behavior to call when, in order to make the robot do what they want.
+If you replace computer with robot, we come to a definition of robot programming: finding the right series of instructions that cause a robot to automate a task or exhibit a certain behavior. Every robot makes available a certain set of functionality -- its user-visible API. These are the primitive behaviors that have been programmed into the robot and can be activated by its user. End users must select which behavior to call, and when, in order to make the robot do what they want.
 
 Even the seemingly-simple cleaning functionality of a Roomba vacuum is typically invoked deliberately as part of a larger sequence of housecleaning tasks.  For example, users often reported first doing pre-cleaning tasks such as picking up clutter or setting down obstacles to constrain the robot's path before activating it~\cite{forlizzi-hri06}. Guided by knowledge of the robot's capabilities, these users are selecting when to invoke the robot's functionality in order to have the desired result.  Robots with more functionality only increase the difficulty of this programming process.
 
-Many of the lessons learned from the fields of end user programming~\cite{dontcheva-nocode} and end user software engineering~\cite{ko-acm11} also apply to robot programming, though robots' physical embodiment leads to additional challenges. Based on my experience in both end user programming and robotics, I believe that the difficulty of the robot programming task boils down to several factors:
+Many of the lessons learned from the fields of end user programming~\cite{dontcheva-nocode} and end user software engineering~\cite{ko-acm11} also apply to robot programming, though robots' physical embodiment leads to additional challenges. Based on my experience in both end user programming and robotics, I would characterize robot programming tasks along a number of dimensions:
 
 \begin{itemize}
 \item {\bf Direct contact with the robot/task}: programming is easier if the user can see and touch the robot and its desired task. Control from a distance makes the programming process harder~\cite{chen-ieeetos07}. For example, robots that are sent into natural disaster zones as first responders may have to be operated from a distance, which increases the programming task's difficulty because the operator's senses are limited to what can be perceived through the robot's own cameras or sensors.
@@ -140,7 +137,7 @@ As another example, robots that are capable of automated navigation may fail to 
 
 Endowing computers with common sense is still an active research area~\cite{mueller-cacm09}, as is making use of common sense knowledge in robotics~\cite{gupta-aaai04}. Yet these concepts will be taken for granted by end users of robots, who will expect their robots to obey common social norms as they perform their tasks.
 
-\subsection{A 3D world}
+\subsection{A 4D world}
 
 % Robot arms have 7DOF
 % grasps require 6D
@@ -148,18 +145,15 @@ Endowing computers with common sense is still an active research area~\cite{muel
 % quaternions, matrix manipulation
 % specialized I/O devices
 
-Unlike traditional computer interfaces which are limited to two dimensions, robot control requires manipulating objects in a three-dimensional world. Visualizing a 3D world on existing 2D displays requires the extra dimension to be projected down into two dimensions, giving rise to the popular ``first person shooter'' style of interface. These interfaces display the world as perceived from a virtual camera, where objects can be occluded by other objects. Additional camera controls are needed to pan/zoom around the space to overcome occlusion. These controls are often non-intuitive, even to seasoned computer users.
+Unlike traditional computer interfaces which are limited to two dimensions, robot control requires manipulating objects in a three-dimensional world, with time providing a fourth dimension. Visualizing a 3D world on existing 2D displays requires the extra dimension to be projected down into two dimensions, giving rise to the popular ``first person shooter'' style of interface. These interfaces display the world as perceived from a virtual camera, where objects can be occluded by other objects. Additional camera controls are needed to pan/zoom around the space to overcome occlusion. These controls are often non-intuitive, even to seasoned computer users~\cite{ioannidou-jvlc09}. In addition, any 3D visualization shows only a single snapshot in time, requiring additional controls or visualizations to convey changes to the world over time.
 
-Occlusion presents a challenge because robots must perceive an object in order to manipulate it.  Often times, the robot itself might occlude the object it is trying to manipulate! For example, consider a humanoid robot with head-mounted vision sensors using an arm to pick up an object from the table in front of it. While moving the arm into position to grasp the object, the arm will likely come between the head and the object, obscuring the robot's vision.
+%Occlusion presents a challenge because robots must perceive an object in order to manipulate it.  Often times, the robot itself might occlude the object it is trying to manipulate! For example, consider a humanoid robot with head-mounted vision sensors using an arm to pick up an object from the table in front of it. While moving the arm into position to grasp the object, the arm will likely come between the head and the object, obscuring the robot's vision. Subsequently planning a path to move the object to a new position without colliding with anything in the environment is still an active research area~\cite{chitta-moveit}.
+%
+%One solution has been to mount additional cameras on different parts of the robot, such as on the robot's forearm or wrist, to get a better view on the object being picked up. However, making sense of multiple translated and rotated video streams can be confusing for those of us accustomed to perceiving the world only through head-mounted eye sensors!
+%
+%Typical input devices such as mice and touchscreens are also only good for interacting in two dimensions. For example, tapping on a point in a camera image does not uniquely identify a point in 3D space, but a line of possible points. When telling a robot to put something down, how can it know which of those points was meant? Current interfaces, such as the RViz display shown in Figure~\ref{rviz}, require complex camera manipulation and precise 3D positioning in order to uniquely specify the desired location.
 
-One solution has been to mount additional cameras on different parts of the robot, such as on the robot's forearm or wrist, to get a better view on the object being picked up. However, making sense of multiple translated and rotated video streams can be confusing for those of us accustomed to perceiving the world only through head-mounted eye sensors!
-
-Typical input devices such as mice and touchscreens are also only good for interacting in two dimensions. For example, tapping on a point in a camera image does not uniquely identify a point in 3D space, but a line of possible points. When telling a robot to put something down, how can it know which of those points was meant? Current interfaces, such as the RViz display shown in Figure~\ref{rviz}, require complex camera manipulation and precise 3D positioning in order to uniquely specify the desired location.
-
-Work on robot programming by demonstration (e.g., Cakmak {\sl et al}~\cite{cakmak-rss10}) reduces the need to interact with 3D visualizations by having users directly manipulate the robot. Nevertheless, participants in their user study found the 3D environment difficult to navigate TBD!!!
-
-!!! Talk about Maya's work here on PBD with interactive Action Visualizations
-http://www.roboticsproceedings.org/rss10/p48.pdf
+Work on robot programming by demonstration (e.g., Alexandrova {\sl et al}~\cite{cakmak-rss14}) reduces the need to interact with 3D visualizations by having users directly manipulate the robot. In their system, users demonstrate a desired robot behavior once by directly manipulating the robot's arms, and then uses a graphical 3D tool to generalize and modify the learned behavior. Yet participants in their user study found it difficult to interact with the 3D environment.
 
 %\section{7-DOF arms}
 %
@@ -181,9 +175,9 @@ http://www.roboticsproceedings.org/rss10/p48.pdf
 
 \section{End user programming for robots}
 
-The field of end user programming~\cite{lieberman-yourwish,dontcheva-nocode} has developed a variety of solutions to enable users of software systems to create or modify software artifacts without having to learn the intricacies of programming.  
+The field of end user programming (EUP)~\cite{lieberman-yourwish,dontcheva-nocode} has developed a variety of solutions to enable users of software systems to create or modify software artifacts without having to learn the intricacies of programming.  
 
-The key insight for these EUP systems is to reduce the complexity of a programming task through simplification. The three primary methods include (a) visual programming: simplifying or eliminating tricky syntax through graphical representations; (b) domain-specific languages: limiting concepts to only those necessary in a particular domain of use, such as spreadsheet formulas; and (c) programming by demonstration or example: letting users focus on concrete examples rather than difficult abstractions.
+The key insight for these EUP systems is to reduce the complexity of a programming task through simplification, trading off expressiveness for ease of use. Three primary methods include (a) visual programming: simplifying or eliminating tricky syntax through graphical representations; (b) domain-specific languages: limiting concepts to only those necessary in a particular domain of use, such as spreadsheet formulas; and (c) programming by demonstration or example: letting users focus on concrete examples rather than difficult abstractions.
 
 However, this simplicity typically comes at the price of expressiveness. By reducing the complexity exposed in an interface, we also reduce the number or variety of functions that can be performed in that interface. In order to make robots that are more tractable for non-technical users, we will have to simplify key aspects of robot behavior, thus sacrificing robots' ability to perform a full range of behavior.
 
@@ -197,12 +191,11 @@ However, this simplicity typically comes at the price of expressiveness. By redu
 
 \subsection{Higher-level primitives}
 
-One way to trade off expressiveness for simplicity is to abstract away details of robot behavior into higher-level primitives. This abstraction can be difficult for roboticists to accept, who have become accustomed to having fine-grained control over robot behavior and error handling. Yet abstracting away these details is going to be critical for end users to be able to develop a working understanding of a robot's functionality.
+One way to trade off expressiveness for simplicity is to abstract away details of robot behavior into higher-level primitives. This abstraction can be difficult for roboticists to accept, who have become accustomed to having fine-grained control over robot behavior and error handling. Yet abstracting away these details is going to be critical for end users to be able to define useful robot behaviors.
 
 %Our approach to designing end-user-programmable interfaces is to craft these autonomous components into a good set of {\em primitives} in an end user programming language, such that a non-expert would not have to ``look inside the box'' to understand how each one works.
 
-Roboticists can then implement these primitives using advanced techniques to solve the difficult problems encountered during robot programming.
-For example, a good autonomous navigation component could incorporate a set of recovery behaviors to try on navigation failure, such as turning around, waiting for people/obstacles to clear out of its path, and backing up and retrying. It could also bake in some concurrent strategies, such as turning the head to look in the direction the robot is going. 
+Roboticists can then implement these primitives using advanced techniques to solve the difficult problems encountered during robot programming.  For example, a good autonomous navigation component could incorporate a set of recovery behaviors to try on navigation failure, such as turning around, waiting for people/obstacles to clear out of its path, and backing up and retrying. It could also bake in some concurrent strategies, such as turning the head to look in the direction the robot is going. 
 
 %Encapsulating all this functionality into a single component with a well-defined interface makes it easier for end user robot programmers by giving them more reliable, easier to understand components they can assemble into programs.
 
@@ -213,9 +206,9 @@ For example, a good autonomous navigation component could incorporate a set of r
 \end{figure*}
 
 We made use of these autonomous functions to develop a system at Willow Garage called Continuous Ops (short for ``Continuous Operations'') that enabled casual users to control PR-2 robots through a web interface (Figure~\ref{contops}).
-The interface was inspired by the head of Willow Garage, who noted that even though he had a lab full of robots, he himself wasn't able to show off any of the functionality of his robots to visitors without a roboticist present to operate them.
+The interface was inspired by the head of Willow Garage, who noted that even though he had a lab full of robots, he himself was not able to show off any of the functionality of his robots to visitors without a roboticist present to operate them.
 
-In response, we developed a web interface, accessible from standard laptops or tablets, that provided the ability to tell a PR-2 robot to perform a variety of tasks.  It could unplug itself from the power supply, navigate autonomously to anywhere in the buliding, position itself in front of a table, automatically identify graspable objects on that table, and pick up an object.
+In response, we developed a web interface, accessible from standard laptops or tablets, that provided the ability to command a PR-2 robot to perform a variety of tasks.  It could unplug itself from the power supply, navigate autonomously to anywhere in the buliding, position itself in front of a table, automatically identify graspable objects on that table, and pick up an object.
 The interface enabled non-technical users to activate several core autonomous functions of the PR-2 through an easy-to-use interface.
 
 The drawback of this interface was that the user lost fine-grained control over exactly how the robot performed these tasks. For example, the interface only supported using the robot's right arm to pick up an object; the left arm was unused. It did not allow the user to specify exactly how to pick up an object (e.g. from above or from the side), even though these parameters can be customized at a lower level of control. 
@@ -224,23 +217,21 @@ The challenge in designing a simpler interface is to carefully craft exactly whi
 
 \subsection{Shared autonomy}
 
-Another way to simplify the programming problem for end users is to take advantage of {\em shared autonomy}. The idea behind shared autonomy is to fall back on teleoperator assistance when autonomy fails, as it will invariably do for the near future. A teleoperator does not necessarily have to be the person who wrote the program. Instead, they could function similarly to staff in telephone call centers, where a team of trained professionals handle incidents as they arise and get the robots back on track to fulfill their programmed goals.
+Another way to simplify the programming problem for end users is to take advantage of {\em shared autonomy}~\cite{leeper-hri12,pitzer-icra11}. The idea behind shared autonomy is to fall back on teleoperator assistance when autonomy fails, as it will invariably do for the near future. A teleoperator does not necessarily have to be the person who wrote the program. Instead, they could function similarly to staff in telephone call centers, where a team of trained professionals handle incidents as they arise and get the robots back on track to fulfill their programmed goals.
 
-With a human expert on call to get a robot out of situations it was not programmed to handle, we can simplify the programming problem for end users so that they do not have to specify error recovery behaviors for every single corner case.
+With a human expert on call to get a robot out of situations it was not programmed to handle, we can simplify the programming problem for end users so that they do not have to specify error recovery behaviors for every single corner case. As a stepping-stone towards full autonomy, this approach also enables the testing of end user programmable systems without needing a fully reliable set of autonomous primitives in place to support them.
 
-As a stepping-stone towards full autonomy, this approach also enables the testing of end user programmable systems without needing a fully reliable set of autonomous primitives in place to support them.
-
-This approach worked well during a multi-day deployment of a delivery system at Willow Garage. Users could request delivery of chocolates or snacks to their office, and the system would autonomously retrieve those items and deliver them to their office door. In the rare cases that the autonomous behaviors failed, several roboticists were notified by email and played the role of teleoperators. They initiated recovery behaviors to get the robots back on track. From the end users' perspective, the robot performed its tasks fully autonomously, sparing them from having to worry about specifying recovery behaviors.
+This approach worked well during a multi-day deployment of a delivery system at Willow Garage. Users could request delivery of chocolates or snacks to their office, and a robot would autonomously retrieve those items and deliver them to their office door. In the rare cases that the autonomous behaviors failed, several roboticists were notified by email and played the role of teleoperators. They initiated recovery behaviors to get the robots back on track. From the end users' perspective, the robot performed its tasks fully autonomously, sparing them from having to worry about specifying recovery behaviors.
 
 \subsection{New 3D input devices}
 
-Finally, video gaming technology is driving a new crop of input and output devices that make it easier to interact with and perceive the 3D world around us. These devices will make it easier for robots to perceive the world in three dimensions, and for people to instruct those robots using more natural gestures. Input devices such as the Razer Hydra, Leap Motion Controller, and Microsoft Kinect can sense motion in 3D, enabling robots to better sense motion and objects in the world. 3D output devices such as the Oculus Rift project stereo images in 3D so that people can perceive what robots are seeing in three dimensions.
+Finally, video gaming technology is driving a new crop of input and output devices that make it easier to interact with and perceive the 3D world around us~\cite{goth-cacm11}. These devices will make it easier for robots to perceive the world in three dimensions, and for people to instruct those robots using more natural gestures. Input devices such as the Razer Hydra, Leap Motion Controller, and Microsoft Kinect can sense motion in 3D, enabling robots to better sense motion and objects in the world. 3D output devices such as the Oculus Rift project stereo images in 3D so that people can perceive what robots are seeing in three dimensions.
 
-These new devices could enable a new generation of robot control interfaces that make interacting with robots more natural and intuitive. For example, David Gossow at Willow Garage developed a research prototype called the PR-2 Surrogate which provided a fully-immersive teleoperation interface for the PR-2 robot. It used a Razer Hydra control to track your hand positions, which were then mapped directly to the robot's hand positions. It also displayed a stereo camera feed from the robot's head-mounted cameras into an Oculus Rift device, giving you a stereo view of what the robot was seeing. The Rift's head tracking capability was mapped to moving the robot's head, enabling you to look around the robot's environment just by turning your head. This demo showed that these new input/output technologies hold much promise for making it easier to interact with, control, and program complex robots.
+These new devices could enable a new generation of robot control interfaces that make interacting with robots more natural and intuitive. For example, David Gossow at Willow Garage developed a research prototype called the PR-2 Surrogate which provided a fully-immersive teleoperation interface for the PR-2 robot\footnote{https://www.youtube.com/watch?v=H0EoEyvTmiY}. It used a Razer Hydra control to track your hand positions, which were then mapped directly to the robot's hand positions. It also displayed a stereo camera feed from the robot's head-mounted cameras into an Oculus Rift device, giving you a stereo view of what the robot was seeing. The Rift's head tracking capability was mapped to moving the robot's head, enabling you to look around the robot's environment just by turning your head. This demo showed that these new input/output technologies hold much promise for making it easier to interact with, control, and program complex robots.  
 
 \section{Conclusion}
 
-Personal service robots have an enormous potential to do good for humanity by enabling people to live more independent lives and free them from mundane housekeeping chores. However, controlling these robots boils down to a small matter of programming. In this article I have explained why programming robots is inherently difficult, even for skilled programmers.  Drawing lessons from the field of end user programming, I have proposed several paths forward that may enable the creation of more accessible interfaces for personal robots in the future.
+Personal service robots have an enormous potential to do good for humanity by enabling people to live more independent lives and free them from mundane housekeeping chores. However, controlling these robots boils down to a small matter of programming~\cite{nardi-smop}. In this article I have explained why programming robots is inherently difficult, even for skilled programmers.  Drawing lessons from the field of end user programming, I have proposed several paths forward that may enable the creation of more accessible interfaces for personal robots in the future.
 
 %Over time, as we refine existing autonomous primitives and build new domain-specific primitives, my hope is that we will expand the repertoire of robust end-user-programmable robot behavior. And perhaps that goal of having our own Rosie the Robot in our homes will soon become a reality.
 
